@@ -110,3 +110,29 @@ _Detailed steps will be written during the build so assessors can reproduce depl
 ## Credits
 - List and link to any code snippets, tutorials, images, or media used.
 - Each image or media asset attributed to its specific owner.
+
+## Roadmap
+- [ ] Set up Django project & apps  
+- [ ] Configure PostgreSQL locally and on Heroku  
+- [ ] Implement authentication (django-allauth) with roles  
+- [ ] Build Scenario, Template, Draft models & CRUD  
+- [ ] Add approval workflow with audit logs  
+- [ ] Implement Training modules & quiz system  
+- [ ] Integrate Stripe checkout & entitlements  
+- [ ] Add custom JavaScript features  
+- [ ] Complete README with deployment and testing sections  
+- [ ] Final Heroku deploy with security settings  
+
+## Screenshots to Capture for README
+- Registration and login pages  
+- Dashboard or home page after login  
+- Create Scenario form  
+- Template list & edit screen  
+- Draft editor showing AI-assisted content (or placeholder)  
+- Approval page with decision form  
+- Training module list & lesson view  
+- Stripe checkout page (test mode)  
+- Stripe payment success screen  
+- Any custom JavaScript feature in action  
+- Mobile, tablet, and desktop views (for responsiveness section)  
+
