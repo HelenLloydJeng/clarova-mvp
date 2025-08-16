@@ -89,6 +89,38 @@ _A diagram will be added here in the README once finalised._
 - CSRF protections and role-based permissions.
 
 ## Deployment
+
+# from project root
+source .venv/Scripts/activate            # Windows Git Bash (PowerShell: .\.venv\Scripts\Activate.ps1)
+python manage.py migrate
+python manage.py runserver
+# open http://127.0.0.1:8000
+
+## Development Log
+
+### Environment setup
+- Created `.venv` and installed dependencies: Django 3.2.25, django-allauth 0.63.6, dj-database-url, whitenoise, stripe, python-dotenv.
+- Generated `requirements.txt`.
+
+### Django skeleton
+- Project package: `clarova`.
+- App: `core`.
+- Template structure: project-level `templates/` with `base.html`, `account/login.html`, `account/signup.html`, `core/home.html`.
+- `TEMPLATES` configured with `DIRS = [BASE_DIR / 'templates']` and `APP_DIRS = True`.
+
+### Authentication (django-allauth)
+- Installed and configured `allauth` with `SITE_ID = 1`.
+- URL include at `/accounts/`.
+- Base navigation uses `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
+
+### Errors encountered and fixes
+- **Issue:** `ImproperlyConfigured: allauth.account.middleware.AccountMiddleware must be added`  
+  **Fix:** Added `'allauth.account.middleware.AccountMiddleware'` after `'django.contrib.auth.middleware.AuthenticationMiddleware'` in `MIDDLEWARE`.
+
+- **Issue:** Route showed `/accountslogin/` due to missing slash in include prefix  
+  **Fix:** Used `path('accounts/', include('allauth.urls'))` and updated nav links to `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
+
+
 - Platform: Heroku
 - Steps to clone, install, migrate, create superuser, runserver
 - Steps to configure environment variables and deploy
@@ -97,11 +129,38 @@ _A diagram will be added here in the README once finalised._
 _Detailed steps will be written during the build so assessors can reproduce deployment._
 
 ## Testing
+
+## Testing
+
+### Manual testing plan (mapped to user stories)
+
+For each test, record **Steps**, **Expected**, **Actual**, **Result** (Pass/Fail), and attach a **Screenshot**.
+
+| Test ID | Scenario | Steps | Expected | Actual | Result | Screenshot |
+|---|---|---|---|---|---|---|
+| T-001 | New user — sign up | Visit `/accounts/signup/`, submit form with valid data | Account created; redirect to Home |  |  |  |
+| T-002 | Returning user — login | Visit `/accounts/login/`, submit valid credentials | Redirect to Home; nav shows **Logout** |  |  |  |
+| T-003 | Navigation | Click Home, Login, Sign up, Logout | All links work; no 404s or broken links |  |  |  |
+| T-004 | Templates loading | Load Home page | `core/home.html` rendered via `base.html` |  |  |  |
+
+### Validators and tools
+- W3C HTML and CSS validators  
+- Lighthouse (Performance, Best Practices, Accessibility)  
+- Cross-browser and responsive checks (desktop, tablet, mobile)
+
 - Manual testing plan mapped to the user stories above.
 - HTML/CSS/JS validators and Lighthouse.
 - Cross-browser and responsive checks.
-- Bug log with reproduction steps and fixes.
+
 - (Optional) Unit tests for models or views.
+### Bug log (ongoing)
+
+- **Issue:** `allauth.account.middleware.AccountMiddleware` missing  
+  **Fix:** Add `'allauth.account.middleware.AccountMiddleware'` after `'django.contrib.auth.middleware.AuthenticationMiddleware'` in `MIDDLEWARE`.
+
+- **Issue:** Missing slash in accounts include caused `/accountslogin/`  
+  **Fix:** Use `path('accounts/', include('allauth.urls'))` and update nav links to `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
+
 
 ## Version Control
 - Git and GitHub used from project start.
@@ -112,7 +171,7 @@ _Detailed steps will be written during the build so assessors can reproduce depl
 - Each image or media asset attributed to its specific owner.
 
 ## Roadmap
-- [ ] Set up Django project & apps  
+- [x] Set up Django project & apps  
 - [ ] Configure PostgreSQL locally and on Heroku  
 - [ ] Implement authentication (django-allauth) with roles  
 - [ ] Build Scenario, Template, Draft models & CRUD  
