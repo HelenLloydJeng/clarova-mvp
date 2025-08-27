@@ -11,25 +11,50 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m_yn&%zod%#^ha=&n5xxwd%6kyojn1(d7=2gjh^&_87ha5u1@b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-not-for-prod')
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
+
+# ---- Hosts: make robust on Heroku ----
+_env_hosts = os.getenv('ALLOWED_HOSTS', '').split()
+if _env_hosts:
+    ALLOWED_HOSTS = _env_hosts
+    # also allow any herokuapp.com host just in case
+    if '.herokuapp.com' not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append('.herokuapp.com')
+else:
+    # sensible defaults for dev + Heroku
+    ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
+
+_env_csrf = os.getenv('CSRF_TRUSTED_ORIGINS', '').split()
+if _env_csrf:
+    CSRF_TRUSTED_ORIGINS = _env_csrf
+else:
+    CSRF_TRUSTED_ORIGINS = []
+    if not DEBUG:
+        # add your two Heroku hostnames so CSRF checks pass in production
+        CSRF_TRUSTED_ORIGINS.extend([
+            'https://clarova-mvp-hlj-31df25c77d83.herokuapp.com',
+            'https://clarova-mvp-hlj.herokuapp.com',
+        ])
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,11 +74,12 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-     'allauth.account.middleware.AccountMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -83,28 +109,39 @@ WSGI_APPLICATION = 'clarova.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        os.getenv('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
+        conn_max_age=600,
+        ssl_require=False
+    )
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'MinimumLengthValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'CommonPasswordValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'NumericPasswordValidator'
+        ),
     },
 ]
 
@@ -140,6 +177,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    [BASE_DIR / 'static']
+    if (BASE_DIR / 'static').exists()
+    else []
+)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
