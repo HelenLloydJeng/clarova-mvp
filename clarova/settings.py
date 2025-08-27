@@ -55,6 +55,7 @@ else:
         ])
 
 # Application definition
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -68,7 +69,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'accounts.apps.AccountsConfig',
-    #local
+    # local
     'core',
 ]
 
