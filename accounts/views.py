@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from .forms import OrganisationCreateForm
 from .models import UserProfile
 
+
 @login_required
 def create_organisation(request):
     if request.method == 'POST':
@@ -20,4 +21,3 @@ def create_organisation(request):
     else:
         form = OrganisationCreateForm()
     return render(request, 'accounts/org_create.html', {'form': form})
-
