@@ -121,14 +121,54 @@ python manage.py runserver
   **Fix:** Used `path('accounts/', include('allauth.urls'))` and updated nav links to `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
 
 
+### Error : Admin 500 Error after `DEBUG=False`
+- **Problem**: Admin page (`/admin/`) returned a 500 error when `DEBUG` was set to `False`. Logs showed `No directory at: /app/staticfiles/`.
+- **Cause**: Static files (including Django admin CSS/JS) were not being collected or served in production.
+- **Solution**:  
+  - Verified `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` included the Heroku domains.  
+  - Ran `heroku run python manage.py collectstatic --noinput` to ensure admin static files were copied to `/app/staticfiles`.  
+  - Confirmed `WhiteNoise` was enabled with `STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"`.  
+  - Triggered a rebuild with `git commit --allow-empty -m "Trigger Heroku rebuild for collectstatic"` followed by `git push heroku main`.  
+- **Fix**: Admin now loads correctly with static files served by WhiteNoise.
+
+---
+
+### Error : `Nonexistent flag: --noinput` on Heroku release
+- **Problem**: Deployment failed with `Error: Nonexistent flag: --noinput`.
+- **Cause**: The `--noinput` flag was mistakenly placed in the Procfile under the `release:` command. This flag is only valid for `manage.py` commands, not `heroku release`.
+- **Solution**: Removed the incorrect flag from the Procfile. Left `--noinput` only in the `collectstatic` step where it belongs.  
+- **Fix**: Release phase runs cleanly without crashing dynos.
+
+---
+
+### Error : Static Files Not Found at Runtime
+- **Problem**: Even after running collectstatic, hitting URLs like `/static/admin/css/base.css` returned 404 errors.
+- **Cause**: The Heroku config var `DISABLE_COLLECTSTATIC` was set (from earlier debugging), which stopped Django from collecting static files during build.
+- **Solution**:  
+  - Checked config with `heroku config:get DISABLE_COLLECTSTATIC`.  
+  - Unset the variable using `heroku config:unset DISABLE_COLLECTSTATIC -a clarova-mvp-hlj`.  
+  - Re-ran deployment to ensure `collectstatic` executed automatically.  
+- **Fix**: Admin static files now available at `/static/admin/...`.
+
+---
+
+### Error: Heroku Deployment Not Updating
+- **Problem**: Changes pushed locally were not reflected on Heroku.
+- **Cause**: Heroku app was linked to GitHub auto-deploys, but manual `git push heroku main` was not updating due to stale cache and mixed remote usage.
+- **Solution**:  
+  - Verified remotes with `git remote -v`.  
+  - Re-pushed directly to Heroku using `git push heroku main`.  
+  - Confirmed new slug build appeared in Heroku dashboard.  
+- **Fix**: Latest code and static assets deployed successfully.
+
+---
+
 - Platform: Heroku
 - Steps to clone, install, migrate, create superuser, runserver
 - Steps to configure environment variables and deploy
 - Add Heroku Postgres, run migrations, set `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS`
 
 _Detailed steps will be written during the build so assessors can reproduce deployment._
-
-## Testing
 
 ## Testing
 
@@ -172,7 +212,7 @@ For each test, record **Steps**, **Expected**, **Actual**, **Result** (Pass/Fail
 
 ## Roadmap
 - [x] Set up Django project & apps  
-- [ ] Configure PostgreSQL locally and on Heroku  
+- [x ] Configure PostgreSQL locally and on Heroku  
 - [ ] Implement authentication (django-allauth) with roles  
 - [ ] Build Scenario, Template, Draft models & CRUD  
 - [ ] Add approval workflow with audit logs  
