@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+import re
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,11 +31,11 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-not-for-prod')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-        import re
 
 def _split_env_list(val: str):
     # Handles "a,b" or "a b" or mixed separators
     return [x for x in re.split(r"[,\s]+", val.strip()) if x]
+
 
 # ---- Hosts: make robust on Heroku ----
 # ---- Hosts and CSRF (fixed) ----
@@ -54,7 +55,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://clarova-mvp-hlj.herokuapp.com",
     "https://clarova.co.uk",
 ]
-
 
 
 # Application definition
