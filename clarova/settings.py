@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     # local
     'core',
+    'scenarios', 
 ]
 
 MIDDLEWARE = [

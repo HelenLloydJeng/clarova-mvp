@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include('core.urls')),    #homepage
     path('accounts/', include('allauth.urls')),  # allauth routes
     path('team/', include('accounts.urls')),  # -> /team/org
+    path('scenarios/', include('scenarios.urls')), 
 ]
