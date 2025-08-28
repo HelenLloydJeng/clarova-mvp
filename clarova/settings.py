@@ -30,29 +30,32 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-not-for-prod')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
+        import re
+
+def _split_env_list(val: str):
+    # Handles "a,b" or "a b" or mixed separators
+    return [x for x in re.split(r"[,\s]+", val.strip()) if x]
 
 # ---- Hosts: make robust on Heroku ----
-_env_hosts = os.getenv('ALLOWED_HOSTS', '').split()
-if _env_hosts:
-    ALLOWED_HOSTS = _env_hosts
-    # also allow any herokuapp.com host just in case
-    if '.herokuapp.com' not in ALLOWED_HOSTS:
-        ALLOWED_HOSTS.append('.herokuapp.com')
-else:
-    # sensible defaults for dev + Heroku
-    ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
+# ---- Hosts and CSRF (fixed) ----
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "clarova-mvp-hlj-31df25c77d83.herokuapp.com",
+    ".herokuapp.com",
+    "clarova.co.uk",
+    ".clarova.co.uk",
+]
 
-_env_csrf = os.getenv('CSRF_TRUSTED_ORIGINS', '').split()
-if _env_csrf:
-    CSRF_TRUSTED_ORIGINS = _env_csrf
-else:
-    CSRF_TRUSTED_ORIGINS = []
-    if not DEBUG:
-        # add your two Heroku hostnames so CSRF checks pass in production
-        CSRF_TRUSTED_ORIGINS.extend([
-            'https://clarova-mvp-hlj-31df25c77d83.herokuapp.com',
-            'https://clarova-mvp-hlj.herokuapp.com',
-        ])
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1",
+    "http://localhost",
+    "https://clarova-mvp-hlj-31df25c77d83.herokuapp.com",
+    "https://clarova-mvp-hlj.herokuapp.com",
+    "https://clarova.co.uk",
+]
+
+
 
 # Application definition
 
