@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{% if form.instance.pk %}Edit{% else %}New{% endif %} Scenario{% endblock %}
+{% block content %}
+<h1>{% if form.instance.pk %}Edit{% else %}New{% endif %} Scenario</h1>
+
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div>
+    <label for="{{ form.title.id_for_label }}">Title</label>
+    {{ form.title.errors }}
+    {{ form.title }}
+  </div>
+  <div>
+    <label for="{{ form.summary.id_for_label }}">Summary</label>
+    {{ form.summary.errors }}
+    {{ form.summary }}
+  </div>
+  <div>
+    <label for="{{ form.severity.id_for_label }}">Severity</label>
+    {{ form.severity.errors }}
+    {{ form.severity }}
+  </div>
+  <div>
+    <label for="{{ form.status.id_for_label }}">Status</label>
+    {{ form.status.errors }}
+    {{ form.status }}
+  </div>
+  <div>
+    <label for="{{ form.organisation.id_for_label }}">Organisation</label>
+    {{ form.organisation.errors }}
+    {{ form.organisation }}
+  </div>
+
+  <p>
+    <button type="submit">Save</button>
+    <a href="{% url 'scenarios:list' %}">Cancel</a>
+  </p>
+</form>
+{% endblock %}

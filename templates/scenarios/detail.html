@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ scenario.title }}{% endblock %}
+{% block content %}
+<article>
+  <h1>{{ scenario.title }}</h1>
+  <p><strong>Severity:</strong> {{ scenario.get_severity_display }}</p>
+  <p><strong>Status:</strong> {{ scenario.get_status_display }}</p>
+  {% if scenario.organisation %}
+    <p><strong>Organisation:</strong> {{ scenario.organisation }}</p>
+  {% endif %}
+  {% if scenario.summary %}
+    <h2>Summary</h2>
+    <p>{{ scenario.summary }}</p>
+  {% endif %}
+  <p><a href="{% url 'scenarios:edit' scenario.pk %}">Edit</a> ·
+     <a href="{% url 'scenarios:delete' scenario.pk %}">Delete</a> ·
+     <a href="{% url 'scenarios:list' %}">Back to list</a></p>
+</article>
+{% endblock %}

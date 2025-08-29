@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Scenarios{% endblock %}
+{% block content %}
+<h1>Scenarios</h1>
+
+<p><a href="{% url 'scenarios:create' %}">+ New scenario</a></p>
+
+{% if scenarios %}
+  <ul>
+    {% for s in scenarios %}
+      <li>
+        <a href="{% url 'scenarios:detail' s.pk %}">{{ s.title }}</a>
+        — {{ s.get_severity_display }} · {{ s.get_status_display }}
+        · <a href="{% url 'scenarios:edit' s.pk %}">Edit</a>
+        · <a href="{% url 'scenarios:delete' s.pk %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No scenarios yet. <a href="{% url 'scenarios:create' %}">Create one</a>.</p>
+{% endif %}
+{% endblock %}
