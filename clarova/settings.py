@@ -75,6 +75,8 @@ INSTALLED_APPS = [
     # local
     'core',
     'scenarios',
+    'training',
+
 ]
 
 MIDDLEWARE = [
