@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ module.title }}{% endblock %}
+{% block content %}
+<h1>{{ module.title }}</h1>
+<p>{{ module.description }}</p>
+
+{% if has_access %}
+  <p><strong>You own this module.</strong></p>
+{% else %}
+  <p><em>Preview only. Purchase to unlock all lessons.</em></p>
+  <p>Price: £{{ module.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ module.price_cents|stringformat:"02d"|slice:"-2:" }}</p>
+  <p><a href="#">Buy (Stripe coming next)</a></p>
+{% endif %}
+
+<h2>Lessons</h2>
+<ol>
+  {% for lesson in lessons %}
+    <li>{{ lesson.title }}</li>
+  {% empty %}
+    <li>No lessons available.</li>
+  {% endfor %}
+</ol>
+
+<p><a href="{% url 'training:list' %}">Back to Training</a></p>
+{% endblock %}

@@ -2,5 +2,16 @@
 {% block title %}Training{% endblock %}
 {% block content %}
 <h1>Training</h1>
-<p>This is where premium modules will appear.</p>
+<ul>
+  {% for m in modules %}
+    <li>
+      <a href="{{ m.get_absolute_url }}">{{ m.title }}</a>
+      — £{{ m.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ m.price_cents|stringformat:"02d"|slice:"-2:" }}
+      {% if m.id in owned_ids %}<strong>(Owned)</strong>{% endif %}
+    </li>
+  {% empty %}
+    <li>No modules yet.</li>
+  {% endfor %}
+</ul>
 {% endblock %}
+
