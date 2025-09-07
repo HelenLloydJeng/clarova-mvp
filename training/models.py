@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
+
 class Module(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField(blank=True)
@@ -20,8 +21,13 @@ class Module(models.Model):
     def get_absolute_url(self):
         return reverse("training:detail", args=[self.pk])
 
+
 class Lesson(models.Model):
-    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name="lessons")
+    module = models.ForeignKey(
+        Module,
+        on_delete=models.CASCADE,
+        related_name="lessons"
+    )
     title = models.CharField(max_length=160)
     content = models.TextField(blank=True)
     order = models.PositiveIntegerField(default=0)
@@ -40,9 +46,12 @@ class Lesson(models.Model):
     def __str__(self) -> str:
         return f"{self.module.title} · {self.title}"
 
+
 class Entitlement(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="entitlements"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="entitlements",
     )
     module = models.ForeignKey(
         Module, on_delete=models.CASCADE, related_name="entitlements"

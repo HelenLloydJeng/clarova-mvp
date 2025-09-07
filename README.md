@@ -163,12 +163,22 @@ python manage.py runserver
 
 ---
 
+## Bug log (ongoing)
+
+### 2025-09-07 — `/training/` returned 404 (Not Found)
+- **Symptoms:** Navigating to `/training/` showed “Not Found.”
+- **Cause:** Project URLConf was missing the include for the `training` app.
+- **Fix:** Added the route to the project urls.
+  ```python
+  # clarova/urls.py
+  path('training/', include('training.urls')),
+
+
 - Platform: Heroku
 - Steps to clone, install, migrate, create superuser, runserver
 - Steps to configure environment variables and deploy
 - Add Heroku Postgres, run migrations, set `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS`
 
-_Detailed steps will be written during the build so assessors can reproduce deployment._
 
 ## Testing
 
@@ -192,7 +202,7 @@ For each test, record **Steps**, **Expected**, **Actual**, **Result** (Pass/Fail
 - HTML/CSS/JS validators and Lighthouse.
 - Cross-browser and responsive checks.
 
-- (Optional) Unit tests for models or views.
+-Unit tests for models or views.
 ### Bug log (ongoing)
 
 - **Issue:** `allauth.account.middleware.AccountMiddleware` missing  
