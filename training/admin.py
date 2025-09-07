@@ -23,7 +23,7 @@ class ModuleAdmin(admin.ModelAdmin):
     inlines = [LessonInline]
 
 
-@admin.register(Lesson)  # Optional: edit lessons on their own page too
+@admin.register(Lesson)  # edit lessons on their own page too
 class LessonAdmin(admin.ModelAdmin):
     list_display = ("title", "module", "order", "is_preview")
     list_filter = ("module", "is_preview")
