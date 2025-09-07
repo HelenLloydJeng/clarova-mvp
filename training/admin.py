@@ -11,7 +11,14 @@ class LessonInline(admin.StackedInline):  # Stacked = better for long text
     extra = 0
     fields = ("order", "title", "is_preview", "content")
     formfield_overrides = {
-        dj_models.TextField: {"widget": Textarea(attrs={"rows": 12, "cols": 100})}
+        dj_models.TextField: {
+            "widget": Textarea(
+                attrs={
+                    "rows": 12,
+                    "cols": 100
+                }
+            )
+        }
     }
 
 
@@ -26,11 +33,16 @@ class ModuleAdmin(admin.ModelAdmin):
 @admin.register(Lesson)  # edit lessons on their own page too
 class LessonAdmin(admin.ModelAdmin):
     list_display = ("title", "module", "order", "is_preview")
-    list_filter = ("module", "is_preview")
+    list_filter = (
+        "module",
+        "is_preview",
+    )
     search_fields = ("title", "module__title")
     ordering = ("module", "order")
     formfield_overrides = {
-        dj_models.TextField: {"widget": Textarea(attrs={"rows": 18, "cols": 100})}
+        dj_models.TextField: {
+            "widget": Textarea(attrs={"rows": 18, "cols": 100})
+        }
     }
 
 

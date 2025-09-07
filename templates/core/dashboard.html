@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Clarova{% endblock %}
+{% block content %}
+<article>
+  <h1>Crisis Comms Dashboard</h1>
+
+  <section>
+    <h2>Scenario snapshot</h2>
+    <p>Total scenarios: <strong>{{ total_scenarios }}</strong></p>
+    <ul id="status-bars" style="list-style:none;padding:0;max-width:480px;">
+      <li data-label="Draft" data-value="{{ status_counts.draft|default:0 }}" style="margin:0.5rem 0;"></li>
+      <li data-label="Approved" data-value="{{ status_counts.approved|default:0 }}" style="margin:0.5rem 0;"></li>
+      <li data-label="Archived" data-value="{{ status_counts.archived|default:0 }}" style="margin:0.5rem 0;"></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Recent scenarios</h2>
+    {% if latest_scenarios %}
+      <ol>
+        {% for s in latest_scenarios %}
+          <li>
+            <a href="{% url 'scenarios:detail' s.pk %}">{{ s.title }}</a>
+            — <small>{{ s.status }} · updated {{ s.updated_at }}</small>
+          </li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <p>No scenarios yet.</p>
+    {% endif %}
+  </section>
+
+  <section>
+    <h2>Training</h2>
+    <p>Active modules: <strong>{{ modules_total }}</strong> · Preview lessons: <strong>{{ preview_lessons }}</strong></p>
+    {% if entitlements %}
+      <p><strong>Your entitlements:</strong></p>
+      <ul>
+        {% for e in entitlements %}
+          <li>{{ e.module.title }} — since {{ e.purchased_at }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>You haven’t unlocked any modules yet.</p>
+    {% endif %}
+    <p><a href="{% url 'training:list' %}">Go to Training</a></p>
+  </section>
+</article>
+
+<script>
+(function () {
+  const items = document.querySelectorAll('#status-bars > li');
+  const values = Array.from(items).map(li => parseInt(li.dataset.value || '0', 10));
+  const max = Math.max(1, ...values);
+  items.forEach(li => {
+    const label = li.dataset.label;
+    const v = parseInt(li.dataset.value || '0', 10);
+    li.textContent = label + ': ' + v + ' ';
+    const bar = document.createElement('div');
+    bar.style.height = '8px';
+    bar.style.width = Math.round((v / max) * 100) + '%';
+    bar.style.background = '#4b9';
+    bar.style.borderRadius = '4px';
+    bar.setAttribute('role', 'img');
+    bar.setAttribute('aria-label', label + ' ' + v);
+    li.appendChild(bar);
+  });
+})();
+</script>
+{% endblock %}
