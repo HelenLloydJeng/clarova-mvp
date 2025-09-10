@@ -1,15 +1,15 @@
 # Create your views here.
 
-
-def home(request):
-    return render(request, 'core/home.html')
-# core/views.py
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import render
 
 from scenarios.models import Scenario
 from training.models import Module, Entitlement, Lesson
+
+
+def home(request):
+    return render(request, 'core/home.html')
 
 
 @login_required
@@ -26,9 +26,15 @@ def dashboard(request):
     latest = qs.order_by('-updated_at')[:5]
 
     # Training / entitlements
-    entitlements = Entitlement.objects.filter(user=user).select_related('module')
+    entitlements = (
+        Entitlement.objects
+        .filter(user=user)
+        .select_related('module')
+    )
     modules_total = Module.objects.filter(is_active=True).count()
-    preview_lessons = Lesson.objects.filter(module__is_active=True, is_preview=True).count()
+    preview_lessons = Lesson.objects.filter(
+        module__is_active=True, is_preview=True
+    ).count()
 
     context = {
         'total_scenarios': total,
