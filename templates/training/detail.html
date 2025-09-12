@@ -4,13 +4,18 @@
 <h1>{{ module.title }}</h1>
 <p>{{ module.description }}</p>
 
-{% if has_access %}
-  <p><strong>You own this module.</strong></p>
 {% else %}
   <p><em>Preview only. Purchase to unlock all lessons.</em></p>
   <p>Price: £{{ module.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ module.price_cents|stringformat:"02d"|slice:"-2:" }}</p>
-  <p><a href="#">Buy (Stripe coming next)</a></p>
+
+  <form action="{% url 'training:checkout' module.pk %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">
+      Buy for £{{ module.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ module.price_cents|stringformat:"02d"|slice:"-2:" }}
+    </button>
+  </form>
 {% endif %}
+
 
 <h2>Lessons</h2>
 <ol>
