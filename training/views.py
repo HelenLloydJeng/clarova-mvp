@@ -1,8 +1,8 @@
 # Create your views here.
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import DetailView, ListView
 from django.contrib.auth.decorators import login_required
-from .models import Module, Lesson, Entitlement
+from .models import Module, Entitlement
 # Stripe + helpers
 import stripe
 from django.conf import settings
@@ -19,7 +19,7 @@ class ModuleListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Module.objects.order_by("title")
-     
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
