@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Payment Success{% endblock %}
+{% block content %}
+<h1>Payment success</h1>
+{% if ok %}
+  <p>Thanks! Your access has been granted{% if module %} to <strong>{{ module.title }}</strong>{% endif %}.</p>
+  <p><a href="{% url 'training:list' %}">Back to Training</a></p>
+{% else %}
+  <p>We couldn’t verify the payment. {{ error }}</p>
+  <p><a href="{% url 'training:list' %}">Back to Training</a></p>
+{% endif %}
+{% endblock %}
