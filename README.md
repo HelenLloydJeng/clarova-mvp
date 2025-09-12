@@ -162,6 +162,46 @@ python manage.py runserver
 - **Fix**: Latest code and static assets deployed successfully.
 
 ---
+### // Error: `NoReverseMatch` for `'core:dashboard'` in `base.html`
+- **Problem**: Home raised 500: “Reverse for 'dashboard' not found”.
+- **Cause**: `dashboard` URL name didn’t exist.
+- **Solution**: Add `path("dashboard/", views.dashboard, name="dashboard")` in `core/urls.py` and ensure view exists.
+- **Fix**: Home renders; Dashboard link works.
+
+### // Error: `404 Not Found` for `/training/`
+- **Problem**: `/training/` returned 404.
+- **Cause**: Training URLconf not included at project level.
+- **Solution**: Add `path("training/", include("training.urls"))` in `clarova/urls.py` and `app_name = "training"` in `training/urls.py`.
+- **Fix**: Training list reachable.
+
+### // Error: `TemplateSyntaxError` — Invalid block tag `'else'`
+- **Problem**: `/training/<id>/` 500 with “Invalid block tag 'else'”.
+- **Cause**: Used `{% else %}` where `{% empty %}` (for loops) or `endblock` (for blocks) was required.
+- **Solution**: Replace `{% else %}` with `{% empty %}` in `templates/training/list.html` and remove stray block `else`.
+- **Fix**: Templates render.
+
+### // Error: `NoReverseMatch` for `training:buy` on Module detail
+- **Problem**: Opening `/training/<id>/` raised “Reverse for 'buy' not found”.
+- **Cause**: Missing/misnamed URL pattern.
+- **Solution**: In `training/urls.py` add:
+  - `path("buy/<int:pk>/", views.checkout_create, name="buy")`
+  - Ensure template uses `{% url 'training:buy' module.pk %}` and `app_name = "training"`.
+- **Fix**: Buy button routes to Stripe Checkout.
+
+### // Error: 404 for `/static/app.css` and missing favicon
+- **Problem**: Logs showed 404s for `/static/app.css` and `/static/favicon.ico`.
+- **Cause**: Files referenced in `base.html` didn’t exist in `static/`.
+- **Solution**: Add `static/app.css` and `static/favicon.ico`; redeploy so Whitenoise serves them.
+- **Fix**: No more static 404s; base styles applied.
+
+### // Error: Heroku CLI — “invalid. Must be in the format FOO=bar.”
+- **Problem**: Failed to set Stripe keys via CLI.
+- **Cause**: App name passed incorrectly; missing `-a` flag.
+- **Solution**:
+  ```bash
+  heroku config:set STRIPE_SECRET_KEY=sk_test_... -a clarova-mvp-hlj
+  heroku config:set STRIPE_PUBLISHABLE_KEY=pk_test_... -a clarova-mvp-hlj
+  ---
 
 ## Bug log (ongoing)
 
@@ -210,6 +250,36 @@ For each test, record **Steps**, **Expected**, **Actual**, **Result** (Pass/Fail
 
 - **Issue:** Missing slash in accounts include caused `/accountslogin/`  
   **Fix:** Use `path('accounts/', include('allauth.urls'))` and update nav links to `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
+  ---
+  ## // Stripe (MVP)
+
+### // How it works
+- **Keys**: Reads `STRIPE_SECRET_KEY` and `STRIPE_PUBLISHABLE_KEY` from environment (`.env` locally; Heroku Config Vars in production).
+- **Flow**:
+  1. Open Module detail (`/training/<id>/`).
+  2. Click **Buy** → POST to `training:buy` → creates a **Stripe Checkout Session** and redirects to Stripe.
+  3. Success returns to `training:success?session_id=...`; app verifies `payment_status == "paid"` and grants an **Entitlement**.
+  4. Cancel returns to the Module page.
+
+### // Routes
+- `training:buy` → `/training/buy/<pk>/` (POST)  
+- `training:success` → `/training/success/` (GET)  
+- `training:cancel` → `/training/cancel/` (GET)
+
+### // Test card
+- **Card**: `4242 4242 4242 4242`  
+- **Expiry**: any *future* month/year  
+- **CVC**: any 3 digits  
+- **Postcode**: any
+
+### // Expected after success
+- Redirect to **Success** page.  
+- Module page shows **“You own this module.”** and full lessons list.  
+- Training list shows **(Owned)** next to the purchased module.
+
+> **Note (MVP)**: No webhooks yet; entitlement granted on return URL. Add a webhook for production verification.
+
+---
 
 
 ## Version Control
