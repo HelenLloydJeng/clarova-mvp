@@ -276,9 +276,51 @@ For each test, record **Steps**, **Expected**, **Actual**, **Result** (Pass/Fail
 - Redirect to **Success** page.  
 - Module page shows **“You own this module.”** and full lessons list.  
 - Training list shows **(Owned)** next to the purchased module.
+---
 
-> **Note (MVP)**: No webhooks yet; entitlement granted on return URL. Add a webhook for production verification.
+## // QA: Stripe Checkout (Test Evidence)
 
+### // Preconditions
+- **Keys** set: `STRIPE_PUBLISHABLE_KEY` and `STRIPE_SECRET_KEY` (test mode).
+- **Module** exists with a non-zero `price_cents` (e.g., £15.00 → `1500`).
+- **User** logged in and has an email on their profile (used by Stripe).
+- **Routes** present:
+  - `training:buy` → `/training/buy/<pk>/` (POST)
+  - `training:success` → `/training/success/`
+  - `training:cancel` → `/training/cancel/`
+
+### // Happy path (purchase succeeds)
+1. Visit **Training → Module detail** (`/training/<id>/`).
+2. Click **Buy with Stripe** (POST to `training:buy`).
+3. Browser redirects to **checkout.stripe.com** showing the module title and correct price.
+4. Enter **test card** `4242 4242 4242 4242`, any **future** expiry, any **CVC**, any **postcode**.
+5. Complete payment → redirected to **/training/success?session_id=...**.
+6. App verifies `payment_status == "paid"` and **creates Entitlement** for the user.
+7. Returning to the Module page shows **“You own this module.”** and **all lessons unlocked**.
+8. Training list displays **(Owned)** for the purchased module.
+
+### // Cancel path (no purchase)
+- On Stripe Checkout, click **Cancel** / back.
+- User is returned to module page; still **preview only**.
+- **No Entitlement** is created.
+
+### // Declined card (error path)
+- Use Stripe decline test card `4000 0000 0000 0002`.
+- Stripe shows **card declined**; payment not completed.
+- Return to site: module remains **preview**; **no Entitlement**.
+
+### // Verification steps
+- **Admin check**: `Admin → Training → Entitlements` shows a new record for the user & module after a successful test payment.
+- **UI check**:
+  - Success page renders **“Payment success”**.
+  - Module detail shows **Owned** state and **full lessons** list.
+  - Training list shows **(Owned)** badge.
+- **Logs** (optional):  
+  `heroku logs --tail -a <app>` shows 302 to Stripe, then GET to `/training/success` without errors.
+
+### // Notes
+- This runs entirely in **Stripe test mode**; no real cards are charged.
+- **MVP** verifies success on the return URL (no webhooks). For production, add a **Stripe webhook** to confirm payment server-side.
 ---
 
 
