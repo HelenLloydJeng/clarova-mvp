@@ -7,6 +7,15 @@ from django.shortcuts import render
 from scenarios.models import Scenario
 from training.models import Module, Entitlement, Lesson
 
+from django.core.exceptions import PermissionDenied
+
+def force_500(request):
+    raise RuntimeError("Trigger 500 for testing")
+
+def force_403(request):
+    raise PermissionDenied("Trigger 403 for testing")
+
+
 
 def home(request):
     return render(request, 'core/home.html')
