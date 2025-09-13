@@ -72,7 +72,7 @@ p,li,small{color:var(--ink);}
 }
 /* Logo tweaks */
 .brand-logo img.logo-img {
-  height: 36px;
+  height: 20px;
   margin-right: 0.5rem;
 }
 
