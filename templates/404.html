@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Page not found · Clarova{% endblock %}
+{% block content %}
+<article class="container">
+  <div class="card">
+    <h1>We can’t find that page (404)</h1>
+    <p>That link may be broken or the page might have moved.</p>
+    <p><a class="btn" href="{% url 'core:home' %}">Go to homepage</a></p>
+  </div>
+</article>
+{% endblock %}
