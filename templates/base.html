@@ -12,21 +12,26 @@
 
   </head>
   <body>
-    <header>
-      <nav aria-label="Main">
-        <a href="{% url 'core:home' %}">Home</a>
-        <img src="{% static 'images/clarova_logo.jpg' %}" alt="Clarova Logo" height="60">
-          {% if user.is_authenticated %}
-          <a href="{% url 'core:dashboard' %}">Dashboard</a>
-          <a href="{% url 'scenarios:list' %}">Scenarios</a>
-          <a href="{% url 'training:list' %}">Training</a>
-          <a href="{% url 'account_logout' %}">Logout</a>
-        {% else %}
-          <a href="{% url 'account_login' %}">Login</a>
-          <a href="{% url 'account_signup' %}">Sign up</a>
-        {% endif %}
-              </nav>
-    </header>
+   <header class="site-header">
+  <div class="inner">
+    <a href="{% url 'core:home' %}" class="brand-logo">
+      <img src="{% static 'images/clarova_logo.jpg' %}" alt="Clarova Logo" class="logo-img">
+      Clarova<span class="dot"></span>
+    </a>
+    <nav aria-label="Main">
+      {% if user.is_authenticated %}
+        <a href="{% url 'core:dashboard' %}">Dashboard</a>
+        <a href="{% url 'scenarios:list' %}">Scenarios</a>
+        <a href="{% url 'training:list' %}">Training</a>
+        <a href="{% url 'account_logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'account_login' %}">Login</a>
+        <a href="{% url 'account_signup' %}">Sign up</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
     <main>
       {% block content %}{% endblock %}
     </main>

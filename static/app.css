@@ -70,6 +70,12 @@ p,li,small{color:var(--ink);}
   border-radius:50%;
   background:var(--clarova-teal);
 }
+/* Logo tweaks */
+.brand-logo img.logo-img {
+  height: 36px;
+  margin-right: 0.5rem;
+}
+
 nav[aria-label="Main"]{
   margin-left:auto;
   display:flex; gap:.75rem; flex-wrap:wrap;
