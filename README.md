@@ -323,7 +323,6 @@ For each test, record **Steps**, **Expected**, **Actual**, **Result** (Pass/Fail
 - **MVP** verifies success on the return URL (no webhooks). For production, add a **Stripe webhook** to confirm payment server-side.
 ---
 
-
 ## Version Control
 - Git and GitHub used from project start.
 - Small, atomic commits with meaningful messages.
