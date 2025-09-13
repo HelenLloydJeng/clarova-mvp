@@ -1,0 +1,162 @@
+/* ========= Clarova base styles ========= */
+
+/* Brand tokens */
+:root{
+  --clarova-blue:#4A6EDB;      /* primary */
+  --clarova-teal:#3AC7B5;      /* accent/dot */
+  --ink:#1F2937;               /* body text */
+  --ink-soft:#374151;          /* secondary text */
+  --bg:#ffffff;                /* page background */
+  --bg-soft:#F8FAFC;           /* panels */
+  --border:#E5E7EB;            /* lines */
+  --focus:#80E6DD;             /* light teal focus ring */
+}
+
+/* Minimal reset */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  background:var(--bg);
+  font:16px/1.55 "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Typography */
+h1,h2,h3,h4{
+  font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--ink);
+  margin:0 0 .5rem;
+}
+h1{font-weight:700; font-size:32px}
+h2{font-weight:600; font-size:24px}
+h3{font-weight:600; font-size:18px}
+p,li,small{color:var(--ink);}
+
+/* Layout helpers */
+.container{
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+}
+
+/* Header / Nav */
+.site-header{
+  border-bottom:1px solid var(--border);
+  background:#fff;
+}
+.site-header .inner{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:.75rem 1.25rem;
+  max-width:1000px;
+  margin:0 auto;
+}
+.brand-logo{
+  font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700;
+  font-size:20px;
+  letter-spacing:.2px;
+  color:var(--clarova-blue);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+}
+.brand-logo .dot{
+  display:inline-block;
+  margin-left:.25rem;
+  width:.5rem; height:.5rem;
+  border-radius:50%;
+  background:var(--clarova-teal);
+}
+nav[aria-label="Main"]{
+  margin-left:auto;
+  display:flex; gap:.75rem; flex-wrap:wrap;
+}
+nav[aria-label="Main"] a{
+  color:var(--ink);
+  text-decoration:none;
+  padding:.4rem .6rem;
+  border-radius:.5rem;
+}
+nav[aria-label="Main"] a:hover,
+nav[aria-label="Main"] a:focus{
+  color:#fff; background:var(--clarova-blue);
+}
+
+/* Links */
+a{color:var(--clarova-blue)}
+a:hover{opacity:.9}
+
+/* Buttons */
+button, .btn{
+  font-family:inherit;
+  font-size:1rem;
+  border:1px solid var(--clarova-blue);
+  background:#fff;
+  color:var(--clarova-blue);
+  padding:.55rem .9rem;
+  border-radius:.6rem;
+  cursor:pointer;
+}
+.btn-primary, button[type="submit"]{
+  background:var(--clarova-blue);
+  color:#fff;
+  border-color:var(--clarova-blue);
+}
+button:hover, .btn:hover{filter:brightness(0.98)}
+.btn-primary:hover{filter:brightness(0.95)}
+
+/* Cards / panels */
+.card{
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1rem;
+}
+.card + .card{margin-top:1rem}
+
+/* Badges */
+.badge{
+  display:inline-block;
+  padding:.15rem .5rem;
+  border-radius:.5rem;
+  font-size:.85rem;
+  line-height:1.2;
+  border:1px solid var(--border);
+  color:var(--ink-soft);
+}
+.badge-owned{
+  border-color:var(--clarova-teal);
+  color:#065F57;
+  background:color-mix(in oklab, var(--clarova-teal) 16%, white);
+}
+
+/* Tables / lists */
+ol,ul{padding-left:1.2rem}
+table{width:100%; border-collapse:collapse}
+th,td{padding:.6rem .5rem; border-bottom:1px solid var(--border)}
+th{text-align:left; font-family:"Poppins"; font-weight:600}
+
+/* Forms */
+input,select,textarea{
+  width:100%;
+  padding:.55rem .6rem;
+  border:1px solid var(--border);
+  border-radius:.5rem;
+  font:inherit;
+  background:#fff;
+}
+input:focus,select:focus,textarea:focus,button:focus,.btn:focus,a:focus{
+  outline:3px solid var(--focus);
+  outline-offset:2px;
+}
+
+/* Main content wrapper (optional) */
+main{display:block}
+main > *{max-width:1000px; margin:0 auto; padding:1rem 1.25rem}
+
+/* Utilities */
+.mt-1{margin-top:.25rem} .mt-2{margin-top:.5rem} .mt-3{margin-top:1rem}
+.mb-1{margin-bottom:.25rem} .mb-2{margin-bottom:.5rem} .mb-3{margin-bottom:1rem}

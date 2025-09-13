@@ -12,7 +12,7 @@
 
   <form method="post" action="{% url 'training:buy' module.pk %}">
     {% csrf_token %}
-    <button type="submit">Buy with Stripe (test)</button>
+    <button type="submit" class="btn btn-primary">Buy with Stripe</button>
   </form>
 {% endif %}
 
