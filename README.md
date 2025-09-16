@@ -224,14 +224,25 @@ python manage.py runserver
 
 ### Manual testing plan (mapped to user stories)
 
-For each test, record **Steps**, **Expected**, **Actual**, **Result** (Pass/Fail), and attach a **Screenshot**.
-
 | Test ID | Scenario | Steps | Expected | Actual | Result | Screenshot |
 |---|---|---|---|---|---|---|
-| T-001 | New user — sign up | Visit `/accounts/signup/`, submit form with valid data | Account created; redirect to Home |  |  |  |
-| T-002 | Returning user — login | Visit `/accounts/login/`, submit valid credentials | Redirect to Home; nav shows **Logout** |  |  |  |
-| T-003 | Navigation | Click Home, Login, Sign up, Logout | All links work; no 404s or broken links |  |  |  |
-| T-004 | Templates loading | Load Home page | `core/home.html` rendered via `base.html` |  |  |  |
+| T-001 | New user — sign up | Visit `/accounts/signup/`, submit valid data | Account created; redirect to Home |  |  | ![signup](static/images/signup_screenshot.jpeg) |
+| T-002 | Returning user — login | Visit `/accounts/login/`, submit valid credentials | Redirect to Home; nav shows **Logout** |  |  | ![login]() |
+| T-003 | Logout flow | Click **Logout** in nav | Redirect to Home; nav shows **Login/Sign up** |  |  | ![logout]() |
+| T-004 | Navigation | Click Home, Login, Sign up, Logout | All links work; no 404s |  |  | ![nav](static/images/login_screenshot.jpeg) |
+| T-005 | Templates loading | Load Home page | `core/home.html` rendered via `base.html` |  |  | ![home](static/images/homepage_screenshot.jpeg) |
+| T-006 | 403 Forbidden page | Visit a restricted URL when not authorised | Custom **403** template renders; helpful message |  |  | ![403](static/images/403_screenshot.jpeg) |
+| T-007 | 404 Not Found page | Visit a non-existent URL | Custom **404** template renders; link back to Home |  |  | ![404](static/images/404_screenshot.jpeg) |
+| T-008 | 500 Server Error page | Trigger server error in dev (temporary view) | Custom **500** template renders; support message |  |  | ![500](static/images/500_screenshot.jpeg) |
+| T-009 | Scenarios — list | Visit `/scenarios` | List shows only the logged-in user’s scenarios |  |  | ![scenarios list]() |
+| T-010 | Scenarios — create | `/scenarios/create` submit valid form | Scenario saved; redirect to detail; success message |  |  |  |![scenario edit](static/images/new_scenario.jpeg) 
+| T-011 | Scenarios — edit | Open a scenario; click **Edit**; submit changes | Changes saved; redirect to detail |  |  | ![scenario edit](static/images/screenshot-scenarios.png) |
+| T-012 | Scenarios — delete | Open a scenario; **Delete**; confirm | Scenario removed; redirect to list |  |  | ![scenario delete](static/images/scenario_delete.jpeg) |
+| T-013 | Training — list | Visit `/training` | Modules listed with **Buy** buttons for paid items |  |  | ![training list]() |
+| T-014 | Stripe — checkout create | Click **Buy** on a paid training | Redirects to Stripe Checkout in test mode |  |  | ![stripe checkout](static/images/stripe_checkout_screenshot.jpeg) |
+| T-015 | Stripe — success | Complete test payment | Redirect to `/training/success`; entitlement created |  |  | ![stripe success](static/images/stripe_dashboard.jpeg) |
+| T-016 | Stripe — cancel | Cancel at Stripe | Redirect to `/training/cancel`; no entitlement |  |  | ![stripe cancel]() |
+| T-017 | Access control | Visit `/scenarios/create` when logged out | Redirect to login; after login, return to create |  |  | ![login redirect]() |
 
 ### Validators and tools
 - W3C HTML and CSS validators  
@@ -241,7 +252,7 @@ For each test, record **Steps**, **Expected**, **Actual**, **Result** (Pass/Fail
 - Manual testing plan mapped to the user stories above.
 - HTML/CSS/JS validators and Lighthouse.
 - Cross-browser and responsive checks.
-
+git push origing main
 -Unit tests for models or views.
 ### Bug log (ongoing)
 
