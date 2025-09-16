@@ -19,11 +19,26 @@
 <h2>Lessons</h2>
 <ol>
   {% for lesson in lessons %}
-    <li>{{ lesson.title }}</li>
+    <li>
+      <strong>{{ lesson.title }}</strong><br>
+      {% if lesson.description %}
+        <button type="button"
+                class="lesson-toggle btn btn-sm btn-outline-secondary"
+                data-target="lesson-desc-{{ lesson.id }}">
+          Show/Hide Description
+        </button>
+        <div id="lesson-desc-{{ lesson.id }}" class="hidden mt-2">
+          <p>{{ lesson.description }}</p>
+        </div>
+      {% else %}
+        <em>No description.</em>
+      {% endif %}
+    </li>
   {% empty %}
     <li>No lessons available.</li>
   {% endfor %}
 </ol>
+
 
 <p><a href="{% url 'training:list' %}">Back to Training</a></p>
 {% endblock %}

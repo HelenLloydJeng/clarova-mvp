@@ -24,6 +24,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),  # allauth routes
     path('team/', include('accounts.urls')),  # -> /team/org
     path('scenarios/', include('scenarios.urls')),
-    path('training/', include('training.urls')),  # -> /training/modules
-    ,
-]
+        path('training/', include('training.urls')),  # -> /training/modules
+    ]
