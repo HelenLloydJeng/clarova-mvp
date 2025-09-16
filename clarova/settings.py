@@ -32,6 +32,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-not-for-prod')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 
+
 def _split_env_list(val: str):
     # Handles "a,b" or "a b" or mixed separators
     return [x for x in re.split(r"[,\s]+", val.strip()) if x]

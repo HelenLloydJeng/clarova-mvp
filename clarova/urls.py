@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+def force_500(request):
+    raise Exception("Test 500 for screenshot")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,4 +25,5 @@ urlpatterns = [
     path('team/', include('accounts.urls')),  # -> /team/org
     path('scenarios/', include('scenarios.urls')),
     path('training/', include('training.urls')),  # -> /training/modules
+    ,
 ]
