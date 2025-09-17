@@ -19,6 +19,9 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("force-500/", views.force_500, name="force-500"),
     path("force-403/", views.force_403, name="force-403"),
+    # --- TEMP: messages smoke test (remove after verification) ---
+path("debug/message", views.debug_message, name="debug_message"),
+
 
 
 ]
