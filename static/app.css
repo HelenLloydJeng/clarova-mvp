@@ -90,6 +90,11 @@ nav[aria-label="Main"] a:hover,
 nav[aria-label="Main"] a:focus{
   color:#fff; background:var(--clarova-blue);
 }
+/* Active nav state */
+nav[aria-label="Main"] a.nav-active{
+  color:#fff;
+  background:var(--clarova-blue);
+}
 
 /* Links */
 a{color:var(--clarova-blue)}
