@@ -56,28 +56,3 @@ def dashboard(request):
     }
     return render(request, 'core/dashboard.html', context)
 
-# --- TEMP: messages smoke test (remove after verification) ---
-from django.contrib import messages
-from django.shortcuts import redirect
-
-def debug_message(request):
-    """
-    Adds a Django message and redirects home.
-    Usage:
-      /debug/message?level=success&text=Saved
-      /debug/message?level=error&text=Something+went+wrong
-      /debug/message?level=warning&text=Heads+up
-      /debug/message?level=info&text=FYI
-    """
-    level = request.GET.get("level", "success")
-    text = request.GET.get("text", "Test message")
-    if level == "success":
-        messages.success(request, text)
-    elif level == "error":
-        messages.error(request, text)
-    elif level == "warning":
-        messages.warning(request, text)
-    else:
-        messages.info(request, text)
-    return redirect("core:home")
-

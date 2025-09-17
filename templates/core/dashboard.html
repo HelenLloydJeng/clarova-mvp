@@ -1,8 +1,27 @@
 {% extends "base.html" %}
+{# 
+  Dashboard
+  Purpose: Quick entry to core actions + status snapshot of scenarios and training.
+  Notes:
+   - One <h1> lives in the hero; inner page heading demoted to <h2> for semantic order.
+   - Status bars are rendered progressively via the inline script for simplicity.
+#}
 {% block title %}Dashboard · Clarova{% endblock %}
 {% block content %}
+<!-- NEW hero section goes first -->
+ {# Hero: repeated primary CTAs for return users; consistent with Home #}
+
+<section class="hero hero-compact">
+  <h1>Welcome back</h1>
+  <p>Pick up where you left off or start something new.</p>
+  <div class="cta-group">
+    <a class="btn btn-primary" href="{% url 'scenarios:create' %}">Create a Scenario</a>
+    <a class="btn btn-secondary" href="{% url 'training:list' %}">Start Training</a>
+  </div>
+</section>
+
 <article>
-  <h1>Crisis Comms Dashboard</h1>
+  <h2>Crisis Comms Dashboard</h2>
 
   <section>
     <h2>Scenario snapshot</h2>
@@ -48,6 +67,16 @@
 </article>
 
 <script>
+  /* 
+  Scenario status bars
+  What it does:
+    - Reads data-* values from <li> items and renders simple proportional bars.
+    - Keeps DOM minimal; no external chart lib.
+    - Adds role="img" + aria-label for basic accessibility.
+  Future dev:
+    - Replace with a small chart component if needed; keep the same data-* API.
+*/
+
 (function () {
   const items = document.querySelectorAll('#status-bars > li');
   const values = Array.from(items).map(li => parseInt(li.dataset.value || '0', 10));

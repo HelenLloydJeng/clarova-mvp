@@ -32,7 +32,6 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-not-for-prod')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 
-
 def _split_env_list(val: str):
     # Handles "a,b" or "a b" or mixed separators
     return [x for x in re.split(r"[,\s]+", val.strip()) if x]
@@ -159,12 +158,21 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-LOGIN_REDIRECT_URL = 'core:home'
-ACCOUNT_LOGOUT_REDIRECT_URL = 'core:home'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+# Explicit login/logout URLs and redirects (clarity for future devs)
+LOGIN_URL = "account_login"              # allauth login view
+LOGOUT_URL = "account_logout"            # allauth logout view
+LOGIN_REDIRECT_URL = "core:home"         # where to send users post-login
+ACCOUNT_LOGOUT_REDIRECT_URL = "core:home"
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+# Allow login with either username or email to reduce
+# “wrong credentials” errors.
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # accepts username OR email
+# Keep username present; email not strictly required for MVP
+# (can be True if you prefer)
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_REQUIRED = False
+# Don’t block login for unverified emails during MVP
+
 
 # Stripe (test keys for MVP)
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")

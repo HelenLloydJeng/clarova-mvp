@@ -1,6 +1,22 @@
 {% extends "base.html" %}
+{#  Home page
+  Purpose: Show a simple hero with two primary flows (Create Scenario, Start Training), 
+  then the existing training explainer content below.
+  Depends on: .hero, .cta-group, .btn, .btn-primary, .btn-secondary styles (app.css)
+#}
+{# Hero: makes the two core actions obvious on first load #}
 
 {% block content %}
+<section class="hero">
+  <h1>Plan a crisis, draft safer, train your team</h1>
+  <p>Clarova helps comms teams plan scenarios, generate first drafts with guardrails, and build skills through 10-minute lessons.</p>
+  <div class="cta-group">
+    <a class="btn btn-primary" href="{% url 'scenarios:create' %}">Create a Scenario</a>
+    <a class="btn btn-secondary" href="{% url 'training:list' %}">Start Training</a>
+  </div>
+</section>
+{# Existing training explainer content retained below the hero for detail/SEO #}
+
 <section class="container">
   <h1>AI Training for Communications Professionals</h1>
   <p class="mb-3">

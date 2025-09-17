@@ -15,5 +15,7 @@
   <p><a href="{% url 'scenarios:edit' scenario.pk %}">Edit</a> ·
      <a href="{% url 'scenarios:delete' scenario.pk %}">Delete</a> ·
      <a href="{% url 'scenarios:list' %}">Back to list</a></p>
+     <a href="{% url 'scenarios:delete' scenario.id %}" class="btn btn-danger btn-delete-scenario">
+  Delete Scenario</a>
 </article>
 {% endblock %}
