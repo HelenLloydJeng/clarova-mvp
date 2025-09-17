@@ -1,7 +1,15 @@
 {% load static %}
+ {% comment %}
+Base layout
+Purpose: Global shell (head tags, header/nav, messages, main, footer/scripts).
+Template blocks: "title", "content"
+CSS hooks: .site-header, nav[aria-label="Main"], .messages, .msg-*.
+{% endcomment %}
+
 <!doctype html>
 <html lang="en">
-  <head>
+    
+    <head>
     <meta charset="utf-8">
     <title>{% block title %}Clarova{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,33 +17,55 @@
     <link rel="stylesheet" href="{% static 'app.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-
   </head>
   <body>
+    <!-- Accessibility: keyboard users can skip nav to main content -->
+
+    <a href="#main" class="visually-hidden-focusable">Skip to main content</a>
+
    <header class="site-header">
   <div class="inner">
     <a href="{% url 'core:home' %}" class="brand-logo">
       Clarova<span class="dot"></span>
     </a>
-    <nav aria-label="Main">
-      {% if user.is_authenticated %}
-        <a href="{% url 'core:dashboard' %}">Dashboard</a>
-        <a href="{% url 'scenarios:list' %}">Scenarios</a>
-        <a href="{% url 'training:list' %}">Training</a>
-        <a href="{% url 'account_logout' %}">Logout</a>
-      {% else %}
-        <a href="{% url 'account_login' %}">Login</a>
-        <a href="{% url 'account_signup' %}">Sign up</a>
-      {% endif %}
-    </nav>
-  </div>
-</header>
+   <nav aria-label="Main">
+  {% if user.is_authenticated %}
+    <a href="{% url 'core:dashboard' %}">Dashboard</a>
+    <a href="{% url 'scenarios:list' %}">Scenarios</a>
+    <a href="{% url 'training:list' %}">Training</a>
 
-    <main>
-      {% block content %}{% endblock %}
-    </main>
+    <form method="post" action="{% url 'account_logout' %}" style="display:inline">
+      {% csrf_token %}
+      <button type="submit" class="linklike">Logout</button>
+    </form>
+  {% else %}
+    <a href="{% url 'account_login' %}">Login</a>
+    <a href="{% url 'account_signup' %}">Sign up</a>
+  {% endif %}
+</nav>
+
+  </div>
+ </header>
+  <main id="main">
+  
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="msg msg-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {# Page-specific content starts here #}
+
+  {% block content %}{% endblock %}
+</main>
     <script src="{% static 'js/app.js' %}" defer></script>
   </body>
+
 </html>
 
-
+{% comment %}
+Django messages
+Purpose: show success/error/warning notices from views (e.g., Stripe errors, form validation).
+Styling: .messages, .msg, .msg-success/.msg-error/.msg-warning in app.css
+{% endcomment %}

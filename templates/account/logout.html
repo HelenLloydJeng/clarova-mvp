@@ -1,14 +1,33 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block content %}
-  <section class="container">
-    <h1>You’ve been logged out</h1>
-    <p class="mb-3">Thanks for visiting Clarova. You're now signed out.</p>
+{#
+  File: templates/account/logout.html
+  Purpose: Confirm sign out before ending the session.
+  Context: With django-allauth, GET /accounts/logout/ renders this page only.
+           The user is not logged out until a POST is submitted to the same URL.
+  UX: Shows a clear confirmation, primary action to sign out, and a safe cancel route.
+  Dev notes:
+    - While this page is shown, request.user is still authenticated,
+      so your nav will display the signed-in links.
+    - After submitting the form (POST), allauth logs the user out and redirects.
+    - If you want one-click logout later, set ACCOUNT_LOGOUT_ON_GET = True in settings.
+#}
 
-    <div class="mt-3">
-      <a href="{% url 'account_login' %}" class="btn btn-primary">Log back in</a>
-      <a href="{% url 'core:home' %}" class="btn ml-2">Return to Homepage</a>
-    </div>
-  </section>
+{% block title %}Sign out{% endblock %}
+
+{% block content %}
+<section class="container">
+  <h1>Sign out</h1>
+  <p>You are currently signed in. Do you want to sign out now?</p>
+
+  <form method="post" action="{% url 'account_logout' %}" class="mt-3">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Sign out</button>
+    <a href="{% url 'core:home' %}" class="btn ml-2">Cancel</a>
+  </form>
+
+  {# Accessibility: explanatory text for screen readers could be added if needed #}
+  {# Styling hooks: .container, .mt-3, .btn, .btn-primary, .ml-2 (see app.css) #}
+</section>
 {% endblock %}

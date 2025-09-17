@@ -95,6 +95,18 @@ nav[aria-label="Main"] a:focus{
 a{color:var(--clarova-blue)}
 a:hover{opacity:.9}
 
+/* Makes the logout button look like a nav link */
+.linklike {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+
 /* Buttons */
 button, .btn{
   font-family:inherit;
@@ -113,6 +125,16 @@ button, .btn{
 }
 button:hover, .btn:hover{filter:brightness(0.98)}
 .btn-primary:hover{filter:brightness(0.95)}
+/* Secondary button for less-prominent CTAs */
+.btn-secondary{
+  background: color-mix(in oklab, var(--clarova-blue) 10%, white);
+  color: #0f2a5f;
+  border-color: color-mix(in oklab, var(--clarova-blue) 25%, white);
+}
+.btn-secondary:hover{ filter: brightness(0.97); }
+/* Variant: Secondary button for less-prominent CTAs */
+
+
 
 /* Cards / panels */
 .card{
@@ -163,6 +185,50 @@ input:focus,select:focus,textarea:focus,button:focus,.btn:focus,a:focus{
 main{display:block}
 main > *{max-width:1000px; margin:0 auto; padding:1rem 1.25rem}
 
+/* Component: Hero (Home & Dashboard)
+   Purpose: concise intro + two primary CTAs; matches main content width. */
+
+.hero{
+  padding: 3rem 1.25rem;
+  text-align: center;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  margin: 1rem auto 2rem;
+  max-width: 1000px; /* matches layout width */
+}
+.hero h1{
+  margin: 0 0 .5rem;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+}
+.hero p{
+  margin: 0 auto 1rem;
+  max-width: 60ch;
+  color: var(--ink-soft);
+}
+.hero-compact{ padding: 2rem 1rem; }
+
+/* Layout helper: CTA group (inline-flex, wraps on mobile) */
+
+.cta-group{
+  display: inline-flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Component: Feedback messages (used by Django messages) */
+
+.messages{ max-width:1000px; margin: 0 auto 1rem; padding: 0 1.25rem; }
+.msg{
+  padding:.75rem 1rem; border-radius:.5rem; margin-bottom:.5rem;
+  border:1px solid var(--border);
+}
+.msg-success{ background:#eaf9ef; }
+.msg-error{ background:#fdecec; }
+.msg-warning{ background:#fff7e5; }
+
+
 /* Utilities */
 .mt-1{margin-top:.25rem} .mt-2{margin-top:.5rem} .mt-3{margin-top:1rem}
 .mb-1{margin-bottom:.25rem} .mb-2{margin-bottom:.5rem} .mb-3{margin-bottom:1rem}
@@ -170,3 +236,13 @@ main > *{max-width:1000px; margin:0 auto; padding:1rem 1.25rem}
 .hidden {
   display: none;
 }
+.visually-hidden-focusable{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+/* Utility: visually-hidden but focusable (for skip link) */
+
+.visually-hidden-focusable:focus{
+  position:static; width:auto; height:auto; padding:.5rem .75rem; background:#fff3cd; border-radius:.5rem;
+  display:inline-block; margin: .5rem 1.25rem;
+}
+
