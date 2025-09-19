@@ -12,10 +12,34 @@
     <h2>Summary</h2>
     <p>{{ scenario.summary }}</p>
   {% endif %}
-  <p><a href="{% url 'scenarios:edit' scenario.pk %}">Edit</a> ·
-     <a href="{% url 'scenarios:delete' scenario.pk %}">Delete</a> ·
-     <a href="{% url 'scenarios:list' %}">Back to list</a></p>
-     <a href="{% url 'scenarios:delete' scenario.id %}" class="btn btn-danger btn-delete-scenario">
-  Delete Scenario</a>
+  <p>
+  <a href="{% url 'scenarios:edit' scenario.pk %}">Edit</a> ·
+  <a href="{% url 'scenarios:list' %}">Back to list</a>
+</p>
+
+<a href="{% url 'scenarios:delete' scenario.pk %}" class="btn btn-danger btn-delete-scenario">
+  Delete Scenario
+</a>
+
 </article>
+{# === Suggested Training (Modules) START === #}
+{% if suggested_modules %}
+<section class="card mt-3">
+  <h2 class="mb-2">Suggested Training</h2>
+  <p class="mb-2">New to this scenario? These modules are a good starting point.</p>
+  <ol>
+    {% for mod in suggested_modules %}
+      <li class="mb-1">
+        <a href="{% url 'training:detail' mod.pk %}">{{ mod.title }}</a>
+        {% if mod.level %}<small> · Level {{ mod.level }}</small>{% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+  <div class="mt-2">
+    <a class="btn btn-secondary" href="{% url 'training:list' %}">Browse all training</a>
+  </div>
+</section>
+{% endif %}
+{# === Suggested Training (Modules) END === #}
+
 {% endblock %}
