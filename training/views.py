@@ -11,7 +11,6 @@ from django.http import HttpResponseNotAllowed
 from django.urls import reverse
 
 
-
 class ModuleListView(LoginRequiredMixin, ListView):
     model = Module
     template_name = "training/list.html"
@@ -33,6 +32,8 @@ class ModuleListView(LoginRequiredMixin, ListView):
         return ctx
 
 
+# Removed duplicate and incorrectly indented code block.
+
 class ModuleDetailView(LoginRequiredMixin, DetailView):
     model = Module
     template_name = "training/detail.html"
@@ -44,17 +45,28 @@ class ModuleDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         module = self.object
+
+        # Do they own this module?
         has_access = Entitlement.objects.filter(
             user=self.request.user, module=module
         ).exists()
+
+        # Lessons to show (all if owned, previews otherwise)
         lessons = (
             module.lessons.all()
             if has_access
-            else module.lessons.filter(is_preview=True)
+            else module.lessons.filter(
+                is_preview=True
+            )
         )
+
+        # Context
         ctx["has_access"] = has_access
         ctx["lessons"] = lessons
+        ctx["return_to"] = self.request.GET.get("next")
         return ctx
+
+
 # --- Stripe Checkout (MVP) ---
 @login_required
 def checkout_create(request, pk):
@@ -97,25 +109,45 @@ def checkout_create(request, pk):
 def checkout_success(request):
     session_id = request.GET.get("session_id")
     if not session_id:
-        return render(request, "training/checkout_success.html", {"ok": False, "error": "Missing session id."})
+        return render(
+            request,
+            "training/checkout_success.html",
+            {
+                "ok": False,
+                "error": "Missing session id."
+            }
+        )
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         session = stripe.checkout.Session.retrieve(session_id)
     except Exception as e:
-        return render(request, "training/checkout_success.html", {"ok": False, "error": str(e)})
+        return render(
+            request,
+            "training/checkout_success.html",
+            {"ok": False, "error": str(e)},
+        )
 
     if session.get("payment_status") == "paid":
         module_id = int(session.get("client_reference_id") or 0)
         module = Module.objects.filter(pk=module_id).first()
         if module:
             Entitlement.objects.get_or_create(user=request.user, module=module)
-        return render(request, "training/checkout_success.html", {"ok": True, "module": module})
+        return render(
+            request,
+            "training/checkout_success.html",
+            {"ok": True, "module": module},
+        )
 
     return render(
         request,
         "training/checkout_success.html",
-        {"ok": False, "error": f"Payment status: {session.get('payment_status')}"}
+        {
+            "ok": False,
+            "error": (
+                f"Payment status: {session.get('payment_status')}"
+            ),
+        }
     )
 
 
