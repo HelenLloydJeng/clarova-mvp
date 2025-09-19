@@ -30,9 +30,11 @@
   <ol>
     {% for mod in suggested_modules %}
       <li class="mb-1">
-        <a href="{% url 'training:detail' mod.pk %}">{{ mod.title }}</a>
-        {% if mod.level %}<small> · Level {{ mod.level }}</small>{% endif %}
-      </li>
+     <a href="{% url 'training:detail' mod.pk %}?next={{ request.get_full_path|urlencode }}">
+  {{ mod.title }}
+</a>
+           
+           </li>
     {% endfor %}
   </ol>
   <div class="mt-2">

@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block title %}{{ module.title }}{% endblock %}
 {% block content %}
+
+<p class="mb-2">
+  {% if return_to %}
+    <a href="{{ return_to }}" class="btn">&larr; Back</a>
+  {% else %}
+    <a href="{% url 'training:list' %}" class="btn">&larr; Back to Training</a>
+  {% endif %}
+</p>
+{# Back button: returns to Scenario if next= is provided; else back to Training list #}
+
+
 <h1>{{ module.title }}</h1>
 <p>{{ module.description }}</p>
 
@@ -9,7 +20,6 @@
 {% else %}
   <p><em>Preview only. Purchase to unlock all lessons.</em></p>
   <p>Price: £{{ module.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ module.price_cents|stringformat:"02d"|slice:"-2:" }}</p>
-
   <form method="post" action="{% url 'training:buy' module.pk %}">
     {% csrf_token %}
     <button type="submit" class="btn btn-primary">Buy with Stripe</button>
@@ -39,6 +49,4 @@
   {% endfor %}
 </ol>
 
-
-<p><a href="{% url 'training:list' %}">Back to Training</a></p>
 {% endblock %}
