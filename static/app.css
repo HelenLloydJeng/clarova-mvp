@@ -250,4 +250,38 @@ main > *{max-width:1000px; margin:0 auto; padding:1rem 1.25rem}
   position:static; width:auto; height:auto; padding:.5rem .75rem; background:#fff3cd; border-radius:.5rem;
   display:inline-block; margin: .5rem 1.25rem;
 }
+/* Sections */
+.section { margin: 1rem auto 2rem; }
+.section h1, .section h2 { margin-bottom: .5rem; }
+.section p.lead { color: var(--ink-soft); margin: 0 0 .75rem; }
+
+/* Compact spacing where needed */
+.compact > * + * { margin-top: .5rem; }
+
+/* Card grid (Training list, Scenarios list) */
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Card header/footer bits */
+.card .card-title { font-weight: 600; margin: 0 0 .25rem; }
+.card .card-meta { color: var(--ink-soft); font-size: .95rem; }
+.card .card-actions { display: flex; gap: .5rem; margin-top: .75rem; }
+
+/* Small badge for “Owned” */
+.badge-owned {
+  border-color: var(--clarova-teal);
+  color: #065F57;
+  background: color-mix(in oklab, var(--clarova-teal) 16%, white);
+}
+
+/* Tighten global vertical rhythm a touch */
+main > * { padding-top: .75rem; padding-bottom: .75rem; }
+
+.section { margin: 1rem auto 2rem; }
+.section h1, .section h2 { margin-bottom: .5rem; }
+.section p.lead { color: var(--ink-soft); margin: 0 0 .75rem; }
 
