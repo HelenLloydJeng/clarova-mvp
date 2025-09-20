@@ -1,16 +1,34 @@
 {% extends "base.html" %}
 {% block title %}Training{% endblock %}
 {% block content %}
-<h1>Training</h1>
-<ul>
-  {% for m in modules %}
-    <li>
-      <a href="{{ m.get_absolute_url }}">{{ m.title }}</a>
-      — £{{ m.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ m.price_cents|stringformat:"02d"|slice:"-2:" }}
-      {% if m.id in owned_ids %}<strong>(Owned)</strong>{% endif %}
-    </li>
-  {% empty %}
-    <li>No modules yet.</li>
-  {% endfor %}
-</ul>
+<section class="section">
+  <h1>Training</h1>
+  <p class="lead">Short, practical modules. Previews are available on most modules.</p>
+
+  <div class="grid">
+    {% for m in modules %}
+      <article class="card compact">
+        <h2 class="card-title">
+          <a href="{% url 'training:detail' m.pk %}">{{ m.title }}</a>
+        </h2>
+        {% if m.summary %}
+          <p class="card-meta">{{ m.summary|truncatechars:120 }}</p>
+        {% endif %}
+
+        <div class="card-actions">
+          <a class="btn btn-primary" href="{% url 'training:detail' m.pk %}">Open</a>
+          {% if m.pk in owned_ids %}
+            <span class="badge badge-owned">Owned</span>
+          {% else %}
+            {% if m.price_cents %}
+              <span class="badge">£{{ m.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ m.price_cents|stringformat:"02d"|slice:"-2:" }}</span>
+            {% endif %}
+          {% endif %}
+        </div>
+      </article>
+    {% empty %}
+      <p>No modules yet.</p>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

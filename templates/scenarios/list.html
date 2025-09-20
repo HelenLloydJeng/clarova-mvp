@@ -3,20 +3,39 @@
 {% block content %}
 <h1>Scenarios</h1>
 
-<p><a href="{% url 'scenarios:create' %}">+ New scenario</a></p>
+<section class="section">
+  <h1>Your Scenarios</h1>
+  <p class="lead">Plan, draft, and review with guardrails.</p>
 
-{% if scenarios %}
-  <ul>
+  <div class="card compact" style="margin-bottom:1rem;">
+    <a class="btn btn-primary" href="{% url 'scenarios:create' %}">Create a Scenario</a>
+    <a class="btn" href="{% url 'training:list' %}">Browse Training</a>
+  </div>
+
+  <div class="grid">
     {% for s in scenarios %}
-      <li>
-        <a href="{% url 'scenarios:detail' s.pk %}">{{ s.title }}</a>
-        — {{ s.get_severity_display }} · {{ s.get_status_display }}
-        · <a href="{% url 'scenarios:edit' s.pk %}">Edit</a>
-        · <a href="{% url 'scenarios:delete' s.pk %}">Delete</a>
-      </li>
+      <article class="card compact">
+        <h2 class="card-title">
+          <a href="{% url 'scenarios:detail' s.pk %}">{{ s.title }}</a>
+        </h2>
+        <p class="card-meta">
+          {{ s.get_status_display }}{% if s.severity %} · {{ s.get_severity_display }}{% endif %}
+          {% if s.updated_at %} · updated {{ s.updated_at|date:"M j, H:i" }}{% endif %}
+        </p>
+        {% if s.summary %}
+          <p>{{ s.summary|truncatechars:140 }}</p>
+        {% endif %}
+        <div class="card-actions">
+          <a class="btn" href="{% url 'scenarios:edit' s.pk %}">Edit</a>
+          <a class="btn btn-danger" href="{% url 'scenarios:delete' s.pk %}">Delete</a>
+        </div>
+      </article>
+    {% empty %}
+      <article class="card">
+        <p>You don’t have any scenarios yet.</p>
+        <a class="btn btn-primary" href="{% url 'scenarios:create' %}">Create your first Scenario</a>
+      </article>
     {% endfor %}
-  </ul>
-{% else %}
-  <p>No scenarios yet. <a href="{% url 'scenarios:create' %}">Create one</a>.</p>
-{% endif %}
+  </div>
+</section>
 {% endblock %}
