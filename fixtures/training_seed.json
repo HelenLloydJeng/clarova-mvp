@@ -1,0 +1,14 @@
+[
+{
+  "model": "training.module",
+  "pk": 2,
+  "fields": {
+    "title": "AI Foundations for Comms & Crisis Response (Beginner)",
+    "description": "A hands-on introduction to using AI responsibly in communications and crisis contexts. Learn safe prompting, triage, drafting, and approvals workflows inside Clarova.\r\n\r\nWhat you'll learn\r\n- Core AI/LLM concepts and limits\r\n- Safe, effective prompting for comms tasks\r\n- Monitoring & triage with AI\r\n- Drafting first-pass statements, internal notes and FAQs\r\n- Running a mini crisis drill with approvals in Clarova\r\n\r\nFormat\r\n- Bite-sized lessons (5–10 min each)\r\n- Copy/paste starter prompts\r\n- A 30-minute mini-drill at the end\r\n- Checklists and a quality rubric you can reuse",
+    "price_cents": 0,
+    "is_active": true,
+    "created_at": "2025-09-21T17:45:14.336Z",
+    "updated_at": "2025-09-21T17:45:14.336Z"
+  }
+}
+]
