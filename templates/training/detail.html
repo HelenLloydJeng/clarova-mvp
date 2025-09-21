@@ -13,7 +13,7 @@
 
 
 <h1>{{ module.title }}</h1>
-<p>{{ module.description }}</p>
+<div>{{ module.description|linebreaks }}</div>
 
 {% if has_access %}
   <p><strong>You own this module.</strong></p>
