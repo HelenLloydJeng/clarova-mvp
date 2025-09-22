@@ -18,12 +18,14 @@
         <div class="card-actions">
           <a class="btn btn-primary" href="{% url 'training:detail' m.pk %}">Open</a>
           {% if m.pk in owned_ids %}
-            <span class="badge badge-owned">Owned</span>
-          {% else %}
-            {% if m.price_cents %}
-              <span class="badge">£{{ m.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ m.price_cents|stringformat:"02d"|slice:"-2:" }}</span>
-            {% endif %}
-          {% endif %}
+  <span class="badge badge-owned">Owned</span>
+{% else %}
+  {% if m.price_cents and m.price_cents|add:0 > 0 %}
+    <span class="badge">£{{ m.price_cents|floatformat:0|add:""|slice:":-2" }}.{{ m.price_cents|stringformat:"02d"|slice:"-2:" }}</span>
+  {% else %}
+    <span class="badge badge-free">Free</span>
+  {% endif %}
+{% endif %}
         </div>
       </article>
     {% empty %}

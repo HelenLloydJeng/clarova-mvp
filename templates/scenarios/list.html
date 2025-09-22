@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Scenarios{% endblock %}
 {% block content %}
-<h1>Scenarios</h1>
 
-<section class="section">
+<h1>Scenarios</h1>
+<div class="card scenario-help">
+  <h3 class="card-title">How to use Scenarios</h3>
+  <ol class="help-steps">
+    <li>Click <strong>Create a Scenario</strong> to start a draft.</li>
+    <li>Fill in <em>Title</em>, <em>Summary</em>, <em>Severity</em>, and <em>Status</em>.</li>
+    <li>Save to view the Scenario. From there you can <strong>Edit</strong> or <strong>Delete</strong>.</li>
+    <li>New to this? Try the free module in <strong>Training</strong> first.</li>
+  </ol>
+</div>
+
+  <section class="section scenarios-list"></section>
   <h1>Your Scenarios</h1>
   <p class="lead">Plan, draft, and review with guardrails.</p>
+  
 
   <div class="card compact" style="margin-bottom:1rem;">
     <a class="btn btn-primary" href="{% url 'scenarios:create' %}">Create a Scenario</a>
