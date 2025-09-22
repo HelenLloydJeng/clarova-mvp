@@ -200,6 +200,37 @@ Core models (subject to refinement during build):
 - TrainingModule, Lesson, Quiz, QuizResult
 
 _A diagram will be added here in the README once finalised._
+## Code Structure & Logic
+
+* **Accounts app**
+
+* Extended Django Allauth with `Organisation` and `UserProfile` models.
+* Used Django signals to automatically create a profile when a user registers.
+* Custom view `/team/org` lets logged-in users create their Organisation, validated against duplicates.
+
+* **Scenarios app**
+
+* Implemented full CRUD with class-based views (`ListView`, `DetailView`, `CreateView`, `UpdateView`, `DeleteView`).
+* Querysets filtered by `request.user` so each user only sees their own scenarios.
+* `ScenarioForm` includes validation to enforce unique titles per user.
+
+* **Training app**
+
+* `Module` and `Lesson` models seeded with starter content.
+* `Entitlement` model checks if a user owns a module (purchased via Stripe).
+* Views control lesson access: preview lesson always available, full content only if Entitlement exists.
+
+* **Stripe integration**
+
+* `checkout_create` view creates a Stripe Checkout Session in test mode.
+* On success return (`/training/success`), Entitlement is granted to the user.
+* Cancel return (`/training/cancel`) shows preview state unchanged.
+
+* **Core app**
+
+* Simple `home` and `dashboard` views with hero CTAs.
+* Dashboard personalised with user info and scenario/training stats.
+---
 
 ## Technologies
 - HTML, CSS, JavaScript, Python, Django
