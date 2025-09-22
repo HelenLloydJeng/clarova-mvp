@@ -35,7 +35,137 @@ Documented using the 5 planes. Include your reasoning and design choices at each
 - Breadcrumbs inside Scenarios and Training.
 - Entitlements used to gate paid features after Stripe success.
 
-### 4. Skeleton (Wireframes)
+### 4. Skeleton (Wireframes) (Text-Based)
+
+### **Home**
+
+```
+ -----------------------------------------------------
+| LOGO           | Home | Dashboard | Scenarios | Training | Login |
+ -----------------------------------------------------
+|                    HERO SECTION                     |
+|  Headline: "AI Crisis Comms Training"               |
+|  Subheading: "Respond quickly and responsibly"      |
+|  [Start Learning]   [Try Scenarios]                 |
+ -----------------------------------------------------
+| Footer: Links, copyright                            |
+ -----------------------------------------------------
+```
+---
+### **Dashboard**
+```
+ -----------------------------------------------------
+| LOGO | Home | Dashboard | Scenarios | Training | Logout |
+ -----------------------------------------------------
+|                DASHBOARD HERO                      |
+|  Welcome, [username]                               |
+|  Buttons: [Create Scenario] [Explore Training]     |
+ -----------------------------------------------------
+| STATUS BOXES                                       |
+|  - Scenarios: [count]                              |
+|  - Training modules owned: [count]                 |
+ -----------------------------------------------------
+```
+---
+### **Scenarios**
+
+**List view**
+```
+ -----------------------------------------------------
+| Scenario Title  | Created: Date | [View] [Edit] [Delete] |
+| Scenario Title  | Created: Date | [View] [Edit] [Delete] |
+ -----------------------------------------------------
+[+ New Scenario]
+```
+**Detail view**
+
+```
+ -----------------------------------------------------
+| Scenario Title                                     |
+| Description...                                     |
+ -----------------------------------------------------
+[Edit]  [Delete]  [Back to List]
+```
+
+**Form view**
+```
+ -----------------------------------------------------
+| New/Edit Scenario                                  |
+ -----------------------------------------------------
+| Title: [___________]                               |
+| Description: [___________________________]         |
+ -----------------------------------------------------
+[Save]   [Cancel]
+```
+
+---
+### **Training**
+
+**List view**
+```
+ -----------------------------------------------------
+| Module Card:                                       |
+|  Title: Media Monitoring & Rapid Response          |
+|  Short desc...                                     |
+|  [Preview Lesson]   [Buy with Stripe]              |
+ -----------------------------------------------------
+| Module Card: (Owned)                               |
+|  Title: Crisis Simulation Lab                      |
+|  Short desc...                                     |
+|  [View Lessons]                                    |
+ -----------------------------------------------------
+```
+**Detail view**
+```
+ -----------------------------------------------------
+| Module Title                                       |
+| Description...                                     |
+ -----------------------------------------------------
+- Preview Lesson (if not purchased)                  |
+- Full lessons list (if purchased)                   |
+ -----------------------------------------------------
+[Buy with Stripe] or [Owned]
+```
+
+**Success/Cancel**
+```
+SUCCESS: "Payment successful. Module unlocked."
+CANCEL: "Payment cancelled. Try again later."
+```
+---
+### **Auth (Login/Signup/Logout)**
+```
+ -----------------------------------------------------
+| LOGIN                                              |
+| Username/Email: [________]                         |
+| Password:      [________]                          |
+ -----------------------------------------------------
+[Login]  [Back to Home]
+
+ -----------------------------------------------------
+| SIGN UP                                            |
+| Username:  [________]                              |
+| Email:     [________]                              |
+| Password:  [________]                              |
+| Confirm:   [________]                              |
+ -----------------------------------------------------
+[Create Account]   [Back to Home]
+
+ -----------------------------------------------------
+| LOGOUT                                             |
+| "Are you sure you want to logout?"                 |
+ -----------------------------------------------------
+[Logout]   [Back to Home]
+```
+---
+### **Error Pages**
+
+```
+403 Forbidden: "You don’t have permission." [Home]
+404 Not Found: "Page not found." [Home]
+500 Server Error: "Something went wrong." [Home]
+```
+---
 Provide links or embedded images for mobile, tablet, and desktop for each major page:
 - Home/Dashboard
 - Scenarios (list/detail)
