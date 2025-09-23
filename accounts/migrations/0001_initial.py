@@ -17,8 +17,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Organisation',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, unique=True)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
+                (
+                    'name',
+                    models.CharField(
+                        max_length=120,
+                        unique=True
+                    )
+                ),
                 ('sector', models.CharField(blank=True, max_length=80)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
@@ -26,10 +40,44 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserProfile',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role', models.CharField(choices=[('admin', 'Admin'), ('approver', 'Approver'), ('editor', 'Editor'), ('learner', 'Learner')], default='editor', max_length=20)),
-                ('organisation', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.organisation')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
+                (
+                    'role',
+                    models.CharField(
+                        choices=[
+                            ('admin', 'Admin'),
+                            ('approver', 'Approver'),
+                            ('editor', 'Editor'),
+                            ('learner', 'Learner')
+                        ],
+                        default='editor',
+                        max_length=20
+                    )
+                ),
+                (
+                    'organisation',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='accounts.organisation'
+                    )
+                ),
+                (
+                    'user',
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL
+                    )
+                ),
             ],
         ),
     ]

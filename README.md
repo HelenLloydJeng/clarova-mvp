@@ -380,10 +380,16 @@ clarova/
 - Layout tested at mobile (≤375px), tablet (~768px), and desktop (≥1280px) breakpoints.
 - Lighthouse checks run in Chrome DevTools. (If you have numbers, add: *Accessibility 92, Best Practices 100, Performance 90*.)
 - W3C HTML/CSS validators passed for key templates (base, scenarios, training).
- 
+
+### Python validation
+All Python files were tested with flake8.  
+Unused imports and formatting warnings were reviewed and corrected where safe (e.g. removal of unused imports).  
+Long line warnings above 79 characters were accepted up to 120 characters, in line with Code Institute guidance.  
+No functional errors were reported.   
 ### Validators and tools
 - W3C HTML and CSS validators  
 - Lighthouse: Performance, Best Practices, Accessibility  
+- Python: checked with flake8 (max line length 120, migrations excluded)
 - Cross-browser and responsive checks (desktop, tablet, mobile)
 
 ### Stripe Checkout (Test Evidence)
