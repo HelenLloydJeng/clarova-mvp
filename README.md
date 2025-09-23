@@ -1,386 +1,357 @@
 # Clarova Crisis Comms & AI Training Platform (MVP)
+**Live site:** https://clarova-mvp-hlj-31df25c77d83.herokuapp.com  
+**Repository:** https://github.com/HelenLloydJeng/clarova-mvp
+
 
 ## Overview
 Clarova is a Django-based SaaS platform that helps public sector and charity communications teams respond quickly and responsibly in a crisis, and provides embedded AI governance training. The MVP is designed to meet the Code Institute Full Stack assessment criteria.
 
 ## Project Goals
-- Enable teams to prepare crisis scenarios, generate drafts from templates, and route items for approval with an audit trail.
-- Provide role-based access and training modules on AI governance and crisis communications.
-- Use Stripe (test mode) to unlock premium features and training content.
-
+- Enable teams to prepare crisis scenarios, manage them through status updates, and track progress clearly.  
+- Provide authenticated access and governance-aware training modules.  
+- Use Stripe (test mode) to unlock premium training content.  
+  
 ## User Experience (UX)
-Documented using the 5 planes. Include your reasoning and design choices at each stage.
+Documented using the 5 planes: Strategy, Scope, Structure, Skeleton, and Surface.
 
 ### 1. Strategy (User and Business Goals)
+
 **Target users:** public sector and charity comms teams; approvers; executives; learners.  
 **Business goals:** recurring subscription income, trusted training resource, governance-ready workflows.
 
 ### 2. Scope (User Stories)
-- As a new user, I want to register an account for my organisation so that my team can access the platform securely.
-- As a new user, I want to create my first crisis scenario so I can prepare for incidents.
-- As a new user, I want to access a free training module so I can understand the basics before upgrading.
-- As a new user, I want to pay via Stripe to unlock AI drafting and the full training library.
 
-- As a returning user, I want to see my active crisis scenarios so I can continue my work.
-- As a returning user, I want to edit a template to reflect new policy changes.
-- As a returning user, I want to complete a training quiz to test my knowledge.
-- As a returning user, I want to see approval requests for my sign-off.
+#### Implemented in the MVP
+- As a new user, I want to **register and log in** so I can access the platform securely.  
+- As a user, I want to **create, view, edit and delete crisis scenarios** (full CRUD).  
+- As a user, I want to **update a scenario’s status** (e.g. Draft / For Review / Approved) so progress is clear.  
+- As a user, I want the **Scenarios area to be scoped to my account** so I only see my own scenarios.  
+- As a user, I want protected pages (e.g. Scenarios, Training) to **redirect me to login** if I’m not authenticated.  
+- As a user, I want to access a **free training module** to evaluate the platform before upgrading.  
+- As a user, I want to **buy premium training modules via Stripe Checkout (test mode)** and, on success, gain access (entitlement).  
+- As a user, I want module pages to indicate when a module is **Owned** after purchase.
 
-- As a frequent user, I want to duplicate a previous scenario to save time.
-- As a frequent user, I want to track approval history for compliance.
-- As a frequent user, I want to update my subscription or payment details via Stripe.
+#### Future development
+- Templates: author/edit reusable templates and apply them to scenarios.  
+- Approvals: routed approver assignments, decision capture, and **audit trail** beyond simple status flags.  
+- Training quizzes with stored results and completion badges.  
+- Duplicate an existing scenario to save time.  
+- Approval history and exportable audit logs.  
+- Subscription self-service (update payment method, invoices) and Stripe webhooks for server-side confirmation.  
+- Team notifications and activity feed.  
+- AI-assisted drafting and performance analytics.
 
 ### 3. Structure (Information Architecture)
-- Global navigation: Home, Scenarios, Templates, Drafts, Approvals, Training, Billing, Account.
-- Breadcrumbs inside Scenarios and Training.
-- Entitlements used to gate paid features after Stripe success.
+- Global navigation: **Home**, **Scenarios**, **Training**, **Account**.  
+- **Scenarios:** list (user-scoped), create, detail, edit, delete, and status update.  
+- **Training:** module list (free + paid), module detail with preview lesson, Stripe Checkout for paid items, **entitlements gating** after success.  
+- **Authentication:** login, signup, logout (django-allauth).
 
-### 4. Skeleton (Wireframes) (Text-Based)
 
-### **Home**
+### 4. Skeleton (Wireframes – Text Based)
 
-```
- -----------------------------------------------------
-| LOGO           | Home | Dashboard | Scenarios | Training | Login |
- -----------------------------------------------------
-|                    HERO SECTION                     |
-|  Headline: "AI Crisis Comms Training"               |
-|  Subheading: "Respond quickly and responsibly"      |
-|  [Start Learning]   [Try Scenarios]                 |
- -----------------------------------------------------
-| Footer: Links, copyright                            |
- -----------------------------------------------------
-```
----
-### **Dashboard**
-```
- -----------------------------------------------------
-| LOGO | Home | Dashboard | Scenarios | Training | Logout |
- -----------------------------------------------------
-|                DASHBOARD HERO                      |
-|  Welcome, [username]                               |
-|  Buttons: [Create Scenario] [Explore Training]     |
- -----------------------------------------------------
-| STATUS BOXES                                       |
-|  - Scenarios: [count]                              |
-|  - Training modules owned: [count]                 |
- -----------------------------------------------------
-```
----
-### **Scenarios**
+**Home**
+- Logo + nav (Home, Dashboard, Scenarios, Training, Login/Logout)
+- Hero section with headline, subheading, and two CTA buttons: *Start Learning* / *Try Scenarios*
+- Footer with links and copyright
 
-**List view**
-```
- -----------------------------------------------------
-| Scenario Title  | Created: Date | [View] [Edit] [Delete] |
-| Scenario Title  | Created: Date | [View] [Edit] [Delete] |
- -----------------------------------------------------
-[+ New Scenario]
-```
-**Detail view**
+**Dashboard**
+- Welcome message with username
+- Quick action buttons: *Create Scenario* / *Explore Training*
+- Status boxes: number of scenarios, number of owned modules
 
-```
- -----------------------------------------------------
-| Scenario Title                                     |
-| Description...                                     |
- -----------------------------------------------------
-[Edit]  [Delete]  [Back to List]
-```
+**Scenarios**
+- List: table of user’s scenarios with title, date, and actions (View, Edit, Delete)
+- Detail: scenario title + description with Edit/Delete/Back buttons
+- Form: title and description fields, Save/Cancel buttons
 
-**Form view**
-```
- -----------------------------------------------------
-| New/Edit Scenario                                  |
- -----------------------------------------------------
-| Title: [___________]                               |
-| Description: [___________________________]         |
- -----------------------------------------------------
-[Save]   [Cancel]
-```
+**Training**
+- List: cards for each module
+  - Example Module 1: preview + buy option
+  - Example Module 2: marked (Owned) with full lesson access
+- Detail: description with preview if not purchased, or full lessons if owned
+- Success page: “Payment successful. Module unlocked.”
+- Cancel page: “Payment cancelled. Try again later.”
 
----
-### **Training**
+**Auth**
+- Login: email/username + password form
+- Sign Up: username, email, password, confirm password
+- Logout: confirmation with *Logout* / *Back to Home*
 
-**List view**
-```
- -----------------------------------------------------
-| Module Card:                                       |
-|  Title: Media Monitoring & Rapid Response          |
-|  Short desc...                                     |
-|  [Preview Lesson]   [Buy with Stripe]              |
- -----------------------------------------------------
-| Module Card: (Owned)                               |
-|  Title: Crisis Simulation Lab                      |
-|  Short desc...                                     |
-|  [View Lessons]                                    |
- -----------------------------------------------------
-```
-**Detail view**
-```
- -----------------------------------------------------
-| Module Title                                       |
-| Description...                                     |
- -----------------------------------------------------
-- Preview Lesson (if not purchased)                  |
-- Full lessons list (if purchased)                   |
- -----------------------------------------------------
-[Buy with Stripe] or [Owned]
-```
-
-**Success/Cancel**
-```
-SUCCESS: "Payment successful. Module unlocked."
-CANCEL: "Payment cancelled. Try again later."
-```
----
-### **Auth (Login/Signup/Logout)**
-```
- -----------------------------------------------------
-| LOGIN                                              |
-| Username/Email: [________]                         |
-| Password:      [________]                          |
- -----------------------------------------------------
-[Login]  [Back to Home]
-
- -----------------------------------------------------
-| SIGN UP                                            |
-| Username:  [________]                              |
-| Email:     [________]                              |
-| Password:  [________]                              |
-| Confirm:   [________]                              |
- -----------------------------------------------------
-[Create Account]   [Back to Home]
-
- -----------------------------------------------------
-| LOGOUT                                             |
-| "Are you sure you want to logout?"                 |
- -----------------------------------------------------
-[Logout]   [Back to Home]
-```
----
-### **Error Pages**
-
-```
-403 Forbidden: "You don’t have permission." [Home]
-404 Not Found: "Page not found." [Home]
-500 Server Error: "Something went wrong." [Home]
-```
----
-Provide links or embedded images for mobile, tablet, and desktop for each major page:
-- Home/Dashboard
-- Scenarios (list/detail)
-- Templates (list/detail/edit)
-- Draft editor and submit for approval
-- Approvals (review/decision)
-- Training (module list, lesson, quiz)
-- Billing (checkout status)
-
-### 5. Surface (UI Design)
-- Clean, accessible layout using modern HTML and CSS (validator friendly).
-- Avoid trailing slashes in URLs.
-- Colour and typography selected for clarity and accessibility.
-
-## Features
-- Registration and login (django-allauth).  
-- Scenario builder, Templates, Drafts with submit for approval.  
-- Approval workflow with decisions and comments.  
-- Training modules with lessons and a quiz that persists results.  
-- Stripe test checkout and webhooks that unlock entitlements.  
-- Light custom JavaScript for the Draft editor and Scenario builder.
-
-### Future Enhancements
-- AI-assisted drafting integration.
-- Performance analytics and exportable audit logs.
-- Team notifications and activity feed.
+**Error Pages**
+- 403 Forbidden: “You don’t have permission.” + Home link
+- 404 Not Found: “Page not found.” + Home link
+- 500 Server Error: “Something went wrong.” + Home link
 
 ## Data Model Overview
-Core models (subject to refinement during build):
-- Organisation, UserProfile, Subscription, Entitlement
-- Scenario, Template, Draft, Approval, ResponseLog
-- TrainingModule, Lesson, Quiz, QuizResult
 
-_A diagram will be added here in the README once finalised._
+### Accounts
+- **Organisation**
+  - `id`, `name`, `owner` (FK to User), `created_at`
+- **UserProfile**
+  - `id`, `user` (OneToOne to User), `organisation` (FK, optional), `role`, `created_at`
+
+### Scenarios
+- **Scenario**
+  - `id`, `user` (FK to User), `title` (unique per user), `description`, `status` (Draft/Review/Approved), timestamps
+
+### Training
+- **Module**
+  - `id`, `title`, `description`, `price_cents`, `is_free`
+- **Lesson**
+  - `id`, `module` (FK), `title`, `content`, `is_preview`, `order`
+- **Entitlement**
+  - `id`, `user` (FK), `module` (FK), `created_at`  
+  - Unique constraint on (user, module)
+
+**Relationships**
+- One user → many scenarios  
+- One module → many lessons  
+- Users and modules connected through entitlements
+
 ## Code Structure & Logic
 
-* **Accounts app**
+### Project layout (high level)
+clarova/
+├─ clarova/                # project settings and root URLConf
+├─ core/                   # home + dashboard
+├─ accounts/               # Organisation, UserProfile, signals, /team/org
+├─ scenarios/              # CRUD for Scenario (user-scoped)
+├─ training/               # Module, Lesson, Entitlement, Stripe flow
+├─ templates/              # project-level templates (base, core, account, scenarios, training)
+├─ static/                 # app.css, images
+└─ requirements.txt
 
-* Extended Django Allauth with `Organisation` and `UserProfile` models.
-* Used Django signals to automatically create a profile when a user registers.
-* Custom view `/team/org` lets logged-in users create their Organisation, validated against duplicates.
+### Installed apps (key)
+- django.contrib.* (auth, admin, sessions, messages, staticfiles)
+- allauth, allauth.account
+- core, accounts, scenarios, training
 
-* **Scenarios app**
+### Settings highlights
+- `TEMPLATES['DIRS'] = [BASE_DIR / 'templates']`, `APP_DIRS = True`
+- Auth backends include `allauth.account.auth_backends.AuthenticationBackend`
+- Middleware includes `allauth.account.middleware.AccountMiddleware`
+- Production: `DEBUG=False`, WhiteNoise for static files, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`
+- Secrets handled via environment variables (`.env` locally, Heroku Config Vars in production)
+- Stripe keys: `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`
 
-* Implemented full CRUD with class-based views (`ListView`, `DetailView`, `CreateView`, `UpdateView`, `DeleteView`).
-* Querysets filtered by `request.user` so each user only sees their own scenarios.
-* `ScenarioForm` includes validation to enforce unique titles per user.
+### URL routing (summary)
+- Project `clarova/urls.py`
+  - `""` → `core:home`
+  - `"dashboard/"` → `core:dashboard`
+  - `"accounts/"` → allauth URLs (login, signup, logout)
+  - `"team/org"` → accounts org create view
+  - `"scenarios/"` → scenarios URLs (list, create, detail, edit, delete)
+  - `"training/"` → training URLs (list, detail, buy, success, cancel)
+- Custom error handlers for 403, 404, 500
 
-* **Training app**
+### Templates
+- `base.html` provides global shell, nav, skip link, and messages area
+- Other templates extend `base.html`
+- Static assets referenced with `{% load static %}`
 
-* `Module` and `Lesson` models seeded with starter content.
-* `Entitlement` model checks if a user owns a module (purchased via Stripe).
-* Views control lesson access: preview lesson always available, full content only if Entitlement exists.
+### Accounts app
+- **Models:** `Organisation`, `UserProfile` (OneToOne to `User`)
+- **Signals:** auto-create `UserProfile` on user registration
+- **View:** `/team/org` allows logged-in users to create their Organisation (duplicate-protected)
+- **Auth:** allauth handles signup, login, logout; protected views use `LoginRequiredMixin`
 
-* **Stripe integration**
+### Scenarios app
+- **Model:** `Scenario(user, title, description, status, timestamps)`
+- **Views:** class-based with `LoginRequiredMixin`
+  - Querysets filtered by `request.user`
+- **Form validation:** unique title enforced per user
+- **Status choices:** Draft, For Review, Approved
+- **UX:** success/error messages displayed via Django messages framework
 
-* `checkout_create` view creates a Stripe Checkout Session in test mode.
-* On success return (`/training/success`), Entitlement is granted to the user.
-* Cancel return (`/training/cancel`) shows preview state unchanged.
-
-* **Core app**
-
-* Simple `home` and `dashboard` views with hero CTAs.
-* Dashboard personalised with user info and scenario/training stats.
+### Training app
+- **Models:** `Module`, `Lesson`, `Entitlement`
+- **Access control:** preview lesson always visible; full content requires an Entitlement
+- **Stripe flow (test mode):**
+  - Buy button creates a Checkout Session
+  - Success page verifies payment and grants an Entitlement
+  - Cancel page leaves module in preview state
+- **UI states:** Owned modules display “Owned” and unlocked lessons
 ---
-
 ## Technologies
-- HTML, CSS, JavaScript, Python, Django
-- PostgreSQL (local and Heroku)
-- Stripe (test mode)
-- Bootstrap or Tailwind for layout
+- **Languages & framework:** Python 3, Django 3.2, HTML5, CSS3  
+- **Database:** PostgreSQL (local + Heroku Postgres in production)  
+- **Payments:** Stripe Checkout (test mode)  
+- **Version control & hosting:** Git, GitHub, Heroku  
+- **Front-end:** custom CSS with basic Bootstrap for layout components  
 
 ## Libraries and APIs
-- django-allauth (authentication)
-- dj-database-url, gunicorn, whitenoise (deployment)
-- stripe (server-side SDK)
-- (Optional) OpenAI API for AI-assisted drafting (can be stubbed)
+- **django-allauth** – authentication (signup, login, logout)  
+- **dj-database-url** – database configuration for Heroku  
+- **whitenoise** – static files in production  
+- **gunicorn** – WSGI HTTP server for Heroku deployment  
+- **stripe** – Python SDK for Stripe Checkout integration  
+- **python-dotenv** – environment variable management in development  
 
 ## Security
-- Environment variables for secrets. No keys in repo.
-- DEBUG=False in production. Secure cookies and SSL redirect.
-- CSRF protections and role-based permissions.
+- Secrets stored in environment variables (never committed to repo)  
+- `DEBUG=False` in production with secure cookies and SSL enforced  
+- CSRF protection and authentication-based access control for protected routes
+- Custom error pages for 403, 404, 500 prevent sensitive information leaks  
 
 ## Deployment
 
-# from project root
-source .venv/Scripts/activate            # Windows Git Bash (PowerShell: .\.venv\Scripts\Activate.ps1)
-python manage.py migrate
-python manage.py runserver
-# open http://127.0.0.1:8000
+### Local development
+1. Clone the repository:
+   git clone https://github.com/HelenLloydJeng/clarova-mvp.git
+   cd clarova-mvp
 
-## Development Log
+2. Create and activate a virtual environment:
+   python -m venv .venv
+   source .venv/bin/activate    # Mac/Linux
+   .venv\Scripts\activate       # Windows
 
-### Environment setup
-- Created `.venv` and installed dependencies: Django 3.2.25, django-allauth 0.63.6, dj-database-url, whitenoise, stripe, python-dotenv.
-- Generated `requirements.txt`.
+3. Install dependencies:
+   pip install -r requirements.txt
 
-### Django skeleton
-- Project package: `clarova`.
-- App: `core`.
-- Template structure: project-level `templates/` with `base.html`, `account/login.html`, `account/signup.html`, `core/home.html`.
-- `TEMPLATES` configured with `DIRS = [BASE_DIR / 'templates']` and `APP_DIRS = True`.
+4. Create a `.env` file in the project root and add environment variables:
+   SECRET_KEY=your_django_secret_key
+   DEBUG=True
+   STRIPE_SECRET_KEY=sk_test_...
+   STRIPE_PUBLISHABLE_KEY=pk_test_...
 
-### Authentication (django-allauth)
-- Installed and configured `allauth` with `SITE_ID = 1`.
-- URL include at `/accounts/`.
-- Base navigation uses `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
+5. Apply migrations and create a superuser:
+   python manage.py migrate
+   python manage.py createsuperuser
 
-### Errors encountered and fixes
-- **Issue:** `ImproperlyConfigured: allauth.account.middleware.AccountMiddleware must be added`  
+6. Run the development server:
+   python manage.py runserver
+
+   The site is available at http://127.0.0.1:8000
+
+### Deployment to Heroku
+1. Create a Heroku app and provision a Postgres database:
+   heroku create clarova-mvp-hlj
+   heroku addons:create heroku-postgresql:hobby-dev
+
+2. Set config vars in Heroku:
+   heroku config:set SECRET_KEY=your_django_secret_key
+   heroku config:set STRIPE_SECRET_KEY=sk_test_...
+   heroku config:set STRIPE_PUBLISHABLE_KEY=pk_test_...
+   heroku config:set DISABLE_COLLECTSTATIC=0
+
+3. Push the code to Heroku:
+   git push heroku main
+
+4. Run migrations on Heroku:
+   heroku run python manage.py migrate
+
+5. (Optional) Create a superuser on Heroku:
+   heroku run python manage.py createsuperuser
+
+6. The live app is available at:
+   https://clarova-mvp-hlj-31df25c77d83.herokuapp.com
+
+### Static files
+- WhiteNoise is configured to serve static files in production.
+- Static files are collected automatically during deployment with collectstatic.
+
+### Version control & deployment
+- Git and GitHub used for source control.
+- Heroku deployment via git push heroku main.
+- Frequent, atomic commits with meaningful messages.
+
+## How to Fork/Clone & Run Locally
+**Fork**
+1. On GitHub, click **Fork** on the repository page.
+2. Clone your fork:
+   - `git clone https://github.com/<your-username>/clarova-mvp.git`
+   - `cd clarova-mvp`
+
+**Clone (without forking)**
+1. `git clone https://github.com/HelenLloydJeng/clarova-mvp.git`
+2. `cd clarova-mvp`
+
+**Environment**
+1. Create virtualenv and install deps:
+   - `python -m venv .venv`
+   - `source .venv/bin/activate` (Mac/Linux) or `.venv\Scripts\activate` (Windows)
+   - `pip install -r requirements.txt`
+2. Create `.env`:
+
+
+## Troubleshooting & Fixes (Key Issues Resolved)
+
+### Authentication / Routing
+- **ImproperlyConfigured:** `allauth.account.middleware.AccountMiddleware` missing  
   **Fix:** Added `'allauth.account.middleware.AccountMiddleware'` after `'django.contrib.auth.middleware.AuthenticationMiddleware'` in `MIDDLEWARE`.
 
-- **Issue:** Route showed `/accountslogin/` due to missing slash in include prefix  
-  **Fix:** Used `path('accounts/', include('allauth.urls'))` and updated nav links to `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
+- **Wrong accounts path:** App showed `/accountslogin/`  
+  **Cause:** Missing slash in URL include.  
+  **Fix:** `path('accounts/', include('allauth.urls'))` and updated nav links to `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
 
+- **NoReverseMatch (`core:dashboard`):** Home 500 error  
+  **Cause:** Missing URL name.  
+  **Fix:** Added `path('dashboard/', views.dashboard, name='dashboard')` and corresponding view.
 
-### Error : Admin 500 Error after `DEBUG=False`
-- **Problem**: Admin page (`/admin/`) returned a 500 error when `DEBUG` was set to `False`. Logs showed `No directory at: /app/staticfiles/`.
-- **Cause**: Static files (including Django admin CSS/JS) were not being collected or served in production.
-- **Solution**:  
-  - Verified `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` included the Heroku domains.  
-  - Ran `heroku run python manage.py collectstatic --noinput` to ensure admin static files were copied to `/app/staticfiles`.  
-  - Confirmed `WhiteNoise` was enabled with `STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"`.  
-  - Triggered a rebuild with `git commit --allow-empty -m "Trigger Heroku rebuild for collectstatic"` followed by `git push heroku main`.  
-- **Fix**: Admin now loads correctly with static files served by WhiteNoise.
+- **Training 404:** `/training/` not found  
+  **Cause:** App URLs not included at project level.  
+  **Fix:** `path('training/', include('training.urls'))` and `app_name = 'training'` in training URLs.
+
+- **NoReverseMatch (`training:buy`):** Module detail page  
+  **Cause:** Missing/misnamed route.  
+  **Fix:** Added `path('buy/<int:pk>/', views.checkout_create, name='buy')` and used `{% url 'training:buy' module.pk %}`.
+
+- **TemplateSyntaxError:** “Invalid block tag 'else'”  
+  **Cause:** Used `{% else %}` where `{% empty %}` or an `endblock` was required.  
+  **Fix:** Replaced with `{% empty %}` and removed stray tag.
+
+### Static files / Production
+- **Admin 500 after `DEBUG=False`:** “No directory at: /app/staticfiles/”  
+  **Cause:** Static files not collected/served.  
+  **Fix:** Ensured WhiteNoise in settings, ran `collectstatic`, and verified `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS`.
+
+- **Static assets 404:** `/static/app.css`, `/static/favicon.ico`  
+  **Cause:** Files referenced but missing.  
+  **Fix:** Added `static/app.css` and `static/favicon.ico`; redeployed.
+
+- **Static not collected on build:**  
+  **Cause:** `DISABLE_COLLECTSTATIC` was set.  
+  **Fix:** `heroku config:unset DISABLE_COLLECTSTATIC -a clarova-mvp-hlj` and redeploy.
+
+### Heroku / Release
+- **Release failed:** `Nonexistent flag: --noinput`  
+  **Cause:** Flag placed in Procfile `release:` step.  
+  **Fix:** Removed from Procfile; keep `--noinput` only for `manage.py collectstatic`.
+
+- **Deploy not updating:**  
+  **Cause:** Mixed remotes/auto-deploy cache.  
+  **Fix:** Verified remotes and pushed directly with `git push heroku main`; confirmed new slug build.
+
+- **Heroku CLI config error:** “invalid. Must be in the format FOO=bar.”  
+  **Cause:** Missing `-a` app flag when setting vars.  
+  **Fix:** `heroku config:set STRIPE_SECRET_KEY=... -a clarova-mvp-hlj` (and same for publishable key).
+
+  - **IndentationError in `scenarios/models.py`**  
+  *Cause:* Misaligned indentation during model definition.  
+  *Fix:* Corrected indentation and re-ran migrations.
+
+- **Navigation template error in `base.html`**  
+  *Cause:* Broken template tag in nav block.  
+  *Fix:* Replaced with correct `{% url %}` usage and ensured block closed properly.
+
+- **Messages not displaying**  
+  *Cause:* Messages framework block missing from `base.html`.  
+  *Fix:* Added `{% if messages %}` loop with styled banner area.
+
+- **Dashboard context missing**  
+  *Cause:* Dashboard view didn’t pass scenario/training stats to the template.  
+  *Fix:* Updated `views.dashboard` to include user info and counts.
+
+- **Heroku WhiteNoise config**  
+  *Cause:* Admin assets not served when `DEBUG=False`.  
+  *Fix:* Enabled `STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"` and `WHITENOISE_USE_FINDERS = True`.
+
+- **JSON fixture import for Training modules failed**  
+  *Cause:* Fixture included a `summary` field not present in the `Lesson` model.  
+  *Fix:* Seeded initial modules and lessons via Django Admin; for future development, fixtures will be updated to match model fields exactly.
 
 ---
-
-### Error : `Nonexistent flag: --noinput` on Heroku release
-- **Problem**: Deployment failed with `Error: Nonexistent flag: --noinput`.
-- **Cause**: The `--noinput` flag was mistakenly placed in the Procfile under the `release:` command. This flag is only valid for `manage.py` commands, not `heroku release`.
-- **Solution**: Removed the incorrect flag from the Procfile. Left `--noinput` only in the `collectstatic` step where it belongs.  
-- **Fix**: Release phase runs cleanly without crashing dynos.
-
----
-
-### Error : Static Files Not Found at Runtime
-- **Problem**: Even after running collectstatic, hitting URLs like `/static/admin/css/base.css` returned 404 errors.
-- **Cause**: The Heroku config var `DISABLE_COLLECTSTATIC` was set (from earlier debugging), which stopped Django from collecting static files during build.
-- **Solution**:  
-  - Checked config with `heroku config:get DISABLE_COLLECTSTATIC`.  
-  - Unset the variable using `heroku config:unset DISABLE_COLLECTSTATIC -a clarova-mvp-hlj`.  
-  - Re-ran deployment to ensure `collectstatic` executed automatically.  
-- **Fix**: Admin static files now available at `/static/admin/...`.
-
----
-
-### Error: Heroku Deployment Not Updating
-- **Problem**: Changes pushed locally were not reflected on Heroku.
-- **Cause**: Heroku app was linked to GitHub auto-deploys, but manual `git push heroku main` was not updating due to stale cache and mixed remote usage.
-- **Solution**:  
-  - Verified remotes with `git remote -v`.  
-  - Re-pushed directly to Heroku using `git push heroku main`.  
-  - Confirmed new slug build appeared in Heroku dashboard.  
-- **Fix**: Latest code and static assets deployed successfully.
-
----
-### // Error: `NoReverseMatch` for `'core:dashboard'` in `base.html`
-- **Problem**: Home raised 500: “Reverse for 'dashboard' not found”.
-- **Cause**: `dashboard` URL name didn’t exist.
-- **Solution**: Add `path("dashboard/", views.dashboard, name="dashboard")` in `core/urls.py` and ensure view exists.
-- **Fix**: Home renders; Dashboard link works.
-
-### // Error: `404 Not Found` for `/training/`
-- **Problem**: `/training/` returned 404.
-- **Cause**: Training URLconf not included at project level.
-- **Solution**: Add `path("training/", include("training.urls"))` in `clarova/urls.py` and `app_name = "training"` in `training/urls.py`.
-- **Fix**: Training list reachable.
-
-### // Error: `TemplateSyntaxError` — Invalid block tag `'else'`
-- **Problem**: `/training/<id>/` 500 with “Invalid block tag 'else'”.
-- **Cause**: Used `{% else %}` where `{% empty %}` (for loops) or `endblock` (for blocks) was required.
-- **Solution**: Replace `{% else %}` with `{% empty %}` in `templates/training/list.html` and remove stray block `else`.
-- **Fix**: Templates render.
-
-### // Error: `NoReverseMatch` for `training:buy` on Module detail
-- **Problem**: Opening `/training/<id>/` raised “Reverse for 'buy' not found”.
-- **Cause**: Missing/misnamed URL pattern.
-- **Solution**: In `training/urls.py` add:
-  - `path("buy/<int:pk>/", views.checkout_create, name="buy")`
-  - Ensure template uses `{% url 'training:buy' module.pk %}` and `app_name = "training"`.
-- **Fix**: Buy button routes to Stripe Checkout.
-
-### // Error: 404 for `/static/app.css` and missing favicon
-- **Problem**: Logs showed 404s for `/static/app.css` and `/static/favicon.ico`.
-- **Cause**: Files referenced in `base.html` didn’t exist in `static/`.
-- **Solution**: Add `static/app.css` and `static/favicon.ico`; redeploy so Whitenoise serves them.
-- **Fix**: No more static 404s; base styles applied.
-
-### // Error: Heroku CLI — “invalid. Must be in the format FOO=bar.”
-- **Problem**: Failed to set Stripe keys via CLI.
-- **Cause**: App name passed incorrectly; missing `-a` flag.
-- **Solution**:
-  ```bash
-  heroku config:set STRIPE_SECRET_KEY=sk_test_... -a clarova-mvp-hlj
-  heroku config:set STRIPE_PUBLISHABLE_KEY=pk_test_... -a clarova-mvp-hlj
-  ---
-
-## Bug log (ongoing)
-
-### 2025-09-07 — `/training/` returned 404 (Not Found)
-- **Symptoms:** Navigating to `/training/` showed “Not Found.”
-- **Cause:** Project URLConf was missing the include for the `training` app.
-- **Fix:** Added the route to the project urls.
-  ```python
-  # clarova/urls.py
-  path('training/', include('training.urls')),
-
-
-- Platform: Heroku
-- Steps to clone, install, migrate, create superuser, runserver
-- Steps to configure environment variables and deploy
-- Add Heroku Postgres, run migrations, set `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS`
-
-
 ## Testing
 
 ### Manual testing plan (mapped to user stories)
@@ -405,126 +376,64 @@ python manage.py runserver
 | T-016 | Stripe — cancel | Cancel at Stripe | Redirect to `/training/cancel`; no entitlement |  |  | ![stripe cancel]() |
 | T-017 | Access control | Visit `/scenarios/create` when logged out | Redirect to login; after login, return to create |  |  | ![login redirect]() |
 
+### Responsiveness & Accessibility
+- Layout tested at mobile (≤375px), tablet (~768px), and desktop (≥1280px) breakpoints.
+- Lighthouse checks run in Chrome DevTools. (If you have numbers, add: *Accessibility 92, Best Practices 100, Performance 90*.)
+- W3C HTML/CSS validators passed for key templates (base, scenarios, training).
+ 
 ### Validators and tools
 - W3C HTML and CSS validators  
-- Lighthouse (Performance, Best Practices, Accessibility)  
+- Lighthouse: Performance, Best Practices, Accessibility  
 - Cross-browser and responsive checks (desktop, tablet, mobile)
 
-- Manual testing plan mapped to the user stories above.
-- HTML/CSS/JS validators and Lighthouse.
-- Cross-browser and responsive checks.
-git push origing main
--Unit tests for models or views.
-### Bug log (ongoing)
-
-- **Issue:** `allauth.account.middleware.AccountMiddleware` missing  
-  **Fix:** Add `'allauth.account.middleware.AccountMiddleware'` after `'django.contrib.auth.middleware.AuthenticationMiddleware'` in `MIDDLEWARE`.
-
-- **Issue:** Missing slash in accounts include caused `/accountslogin/`  
-  **Fix:** Use `path('accounts/', include('allauth.urls'))` and update nav links to `{% url 'account_login' %}`, `{% url 'account_signup' %}`, `{% url 'account_logout' %}`.
-  ---
-  ## // Stripe (MVP)
-
-### // How it works
-- **Keys**: Reads `STRIPE_SECRET_KEY` and `STRIPE_PUBLISHABLE_KEY` from environment (`.env` locally; Heroku Config Vars in production).
-- **Flow**:
-  1. Open Module detail (`/training/<id>/`).
-  2. Click **Buy** → POST to `training:buy` → creates a **Stripe Checkout Session** and redirects to Stripe.
-  3. Success returns to `training:success?session_id=...`; app verifies `payment_status == "paid"` and grants an **Entitlement**.
-  4. Cancel returns to the Module page.
-
-### // Routes
-- `training:buy` → `/training/buy/<pk>/` (POST)  
-- `training:success` → `/training/success/` (GET)  
-- `training:cancel` → `/training/cancel/` (GET)
-
-### // Test card
-- **Card**: `4242 4242 4242 4242`  
-- **Expiry**: any *future* month/year  
-- **CVC**: any 3 digits  
-- **Postcode**: any
-
-### // Expected after success
-- Redirect to **Success** page.  
-- Module page shows **“You own this module.”** and full lessons list.  
-- Training list shows **(Owned)** next to the purchased module.
----
-
-## // QA: Stripe Checkout (Test Evidence)
-
-### // Preconditions
-- **Keys** set: `STRIPE_PUBLISHABLE_KEY` and `STRIPE_SECRET_KEY` (test mode).
-- **Module** exists with a non-zero `price_cents` (e.g., £15.00 → `1500`).
-- **User** logged in and has an email on their profile (used by Stripe).
-- **Routes** present:
-  - `training:buy` → `/training/buy/<pk>/` (POST)
-  - `training:success` → `/training/success/`
-  - `training:cancel` → `/training/cancel/`
-
-### // Happy path (purchase succeeds)
-1. Visit **Training → Module detail** (`/training/<id>/`).
-2. Click **Buy with Stripe** (POST to `training:buy`).
-3. Browser redirects to **checkout.stripe.com** showing the module title and correct price.
-4. Enter **test card** `4242 4242 4242 4242`, any **future** expiry, any **CVC**, any **postcode**.
-5. Complete payment → redirected to **/training/success?session_id=...**.
-6. App verifies `payment_status == "paid"` and **creates Entitlement** for the user.
-7. Returning to the Module page shows **“You own this module.”** and **all lessons unlocked**.
-8. Training list displays **(Owned)** for the purchased module.
-
-### // Cancel path (no purchase)
-- On Stripe Checkout, click **Cancel** / back.
-- User is returned to module page; still **preview only**.
-- **No Entitlement** is created.
-
-### // Declined card (error path)
-- Use Stripe decline test card `4000 0000 0000 0002`.
-- Stripe shows **card declined**; payment not completed.
-- Return to site: module remains **preview**; **no Entitlement**.
-
-### // Verification steps
-- **Admin check**: `Admin → Training → Entitlements` shows a new record for the user & module after a successful test payment.
-- **UI check**:
-  - Success page renders **“Payment success”**.
-  - Module detail shows **Owned** state and **full lessons** list.
-  - Training list shows **(Owned)** badge.
-- **Logs** (optional):  
-  `heroku logs --tail -a <app>` shows 302 to Stripe, then GET to `/training/success` without errors.
-
-### // Notes
-- This runs entirely in **Stripe test mode**; no real cards are charged.
-- **MVP** verifies success on the return URL (no webhooks). For production, add a **Stripe webhook** to confirm payment server-side.
----
+### Stripe Checkout (Test Evidence)
+- **Preconditions:** Stripe test keys set; module with non-zero price exists; user logged in.  
+- **Happy path:** Buy → redirect to Stripe Checkout → enter test card `4242 4242 4242 4242` → payment success → redirected to `/training/success`; entitlement created; module shows **Owned**; lessons unlocked.  
+- **Cancel path:** Cancel on Stripe Checkout → returned to module detail → no entitlement created.  
+- **Declined card path:** Use decline test card `4000 0000 0000 0002` → Stripe shows “card declined”; no entitlement created.  
+- **Verification:**  
+  - Admin panel shows entitlement created after success.  
+  - Training list displays **(Owned)** badge.  
+  - Logs confirm checkout and success callbacks.  
+- **Notes:** Runs in Stripe test mode only; no real cards charged. MVP validates purchase on return URL (no webhooks yet).
 
 ## Version Control
 - Git and GitHub used from project start.
 - Small, atomic commits with meaningful messages.
 
 ## Credits
-- List and link to any code snippets, tutorials, images, or media used.
-- Each image or media asset attributed to its specific owner.
 
-## Roadmap
-- [x] Set up Django project & apps  
-- [x ] Configure PostgreSQL locally and on Heroku  
-- [ ] Implement authentication (django-allauth) with roles  
-- [ ] Build Scenario, Template, Draft models & CRUD  
-- [ ] Add approval workflow with audit logs  
-- [ ] Implement Training modules & quiz system  
-- [ ] Integrate Stripe checkout & entitlements  
-- [ ] Add custom JavaScript features  
-- [ ] Complete README with deployment and testing sections  
-- [ ] Final Heroku deploy with security settings  
+**Mentorship**
+- Special thanks to my Code Institute mentor, **Richard Wells**, for guidance and feedback throughout the project.
 
-## Screenshots to Capture for README
-- Registration and login pages  
-- Dashboard or home page after login  
-- Create Scenario form  
-- Template list & edit screen  
-- Draft editor showing AI-assisted content (or placeholder)  
-- Approval page with decision form  
-- Training module list & lesson view  
-- Stripe checkout page (test mode)  
-- Stripe payment success screen  
-- Any custom JavaScript feature in action  
-- Mobile, tablet, and desktop views (for responsiveness section)  
+**Learning & tutorials**
+- Code Institute Full Stack materials (Django, deployment, Stripe)
+- Django documentation — https://docs.djangoproject.com/en/3.2/
+- django-allauth documentation — https://docs.allauth.org/
+- Stripe Checkout (test mode) — https://stripe.com/docs/payments/checkout
+- WhiteNoise docs — https://whitenoise.evans.io/en/stable/
+- Heroku Dev Center (Django + Postgres) — https://devcenter.heroku.com/
+- Gunicorn docs — https://docs.gunicorn.org/
+- dj-database-url — https://github.com/jacobian/dj-database-url
+- python-dotenv — https://saurabh-kumar.com/python-dotenv/
 
+**Learning & troubleshooting**
+- Stack Overflow discussions for Django template errors, URL routing, and Heroku deployment issues
+- GitHub issues and community threads for django-allauth configuration
+- Heroku community forum posts for staticfiles and WhiteNoise setup
+- Stripe developer forum for Checkout testing and declined card handling
+- WhiteNoise GitHub issues for serving Django admin assets when DEBUG=False
+
+**Front-end and accessibility references**
+- MDN Web Docs (HTML, CSS, accessibility) — https://developer.mozilla.org/
+- W3C HTML and CSS Validators — https://validator.w3.org/ and https://jigsaw.w3.org/css-validator/
+- Lighthouse (Chrome DevTools)
+
+**Tools**
+- Visual Studio Code
+- Git and GitHub
+- Heroku
+- GitHub Copilot (code suggestions used during development)
+
+**Attribution**
+- All screenshots and images are my own unless otherwise credited in this README.
