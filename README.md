@@ -292,18 +292,20 @@ heroku config:set CSRF_TRUSTED_ORIGINS=https://clarova-mvp-hlj-31df25c77d83.hero
    - `pip install -r requirements.txt`
 
 2. Create `.env` in the project root:
-  ```env
-SECRET_KEY=your_django_secret_key
-DEBUG=True
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_PUBLISHABLE_KEY=pk_test_...
-``` 
+
+   ```env
+   SECRET_KEY=your_django_secret_key
+   DEBUG=True
+   STRIPE_SECRET_KEY=sk_test_...
+   STRIPE_PUBLISHABLE_KEY=pk_test_...
 
 3. Migrate and run:
-- `python manage.py migrate`
-- `python manage.py runserver`
-- open http://127.0.0.1:8000
 
+   python manage.py migrate
+
+   python manage.py runserver
+
+   Open http://127.0.0.1:8000
 
 ## Troubleshooting & Fixes (Key Issues Resolved)
 
@@ -388,10 +390,10 @@ STRIPE_PUBLISHABLE_KEY=pk_test_...
 
 | Test ID | Scenario | Steps | Expected | Actual | Result | Screenshot |
 |---|---|---|---|---|---|---|
-| T-001 | New user — sign up | Visit `/accounts/signup/`, submit valid data | Account created; redirect to Home |  |  | ![signup](static/images/signup_screenshot.jpeg) |
-| T-002 | Returning user — login | Visit `/accounts/login/`, submit valid credentials | Redirect to Home; nav shows **Logout** |  |  | ![login](static/images/Screenshot_signedout.jpeg) |
-| T-003 | Logout flow | Click **Logout** in nav | Redirect to Home; nav shows **Login/Sign up** |  |  | ![logout](static/images/Screenshot_Welcome_back_relogin.jpeg) |
-| T-004 | Navigation | Click Home, Login, Sign up, Logout | All links work; no 404s |  |  | ![nav](static/images/login_screenshot.jpeg) |
+| T-001 | New user — sign up | Visit `/accounts/signup/`, submit valid data | Account created; redirect to Home | as expected |  pass| ![signup](static/images/signup_screenshot.jpeg) |
+| T-002 | Returning user — login | Visit `/accounts/login/`, submit valid credentials | Redirect to Home; nav shows **Logout** | as expected | pass | ![login](static/images/Screenshot_signedout.jpeg) |
+| T-003 | Logout flow | Click **Logout** in nav | Redirect to Home; nav shows **Login/Sign up** | as expected |  pass| ![logout](static/images/Screenshot_Welcome_back_relogin.jpeg) |
+| T-004 | Navigation | Click Home, Login, Sign up, Logout | All links work; no 404s | as expected |  pass| ![nav](static/images/login_screenshot.jpeg) |
 | T-005 | Templates loading | Load Home page | `core/home.html` rendered via `base.html` |  |  | ![home](static/images/homepage_screenshot.jpeg) |
 | T-006 | 403 Forbidden page | Visit a restricted URL when not authorised | Custom **403** template renders; helpful message |  |  | ![403](static/images/403_screenshot.jpeg) |
 | T-007 | 404 Not Found page | Visit a non-existent URL | Custom **404** template renders; link back to Home |  |  | ![404](static/images/404_screenshot.jpeg) |
