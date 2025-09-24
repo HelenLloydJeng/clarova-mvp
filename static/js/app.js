@@ -47,4 +47,19 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+  // ↑ Back to Top button
+  const backBtn = document.createElement("button");
+  backBtn.innerText = "↑ Back to Top";
+  backBtn.id = "back-to-top";
+  backBtn.setAttribute("aria-label", "Back to top");
+  backBtn.classList.add("back-to-top"); // use CSS instead of inline styles
+  document.body.appendChild(backBtn);
+
+  window.addEventListener("scroll", function () {
+    backBtn.style.display = window.scrollY > 200 ? "block" : "none";
+  });
+
+  backBtn.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 });
