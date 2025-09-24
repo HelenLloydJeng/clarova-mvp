@@ -378,8 +378,49 @@ clarova/
 
 ### Responsiveness & Accessibility
 - Layout tested at mobile (≤375px), tablet (~768px), and desktop (≥1280px) breakpoints.
-- Lighthouse checks run in Chrome DevTools. (If you have numbers, add: *Accessibility 92, Best Practices 100, Performance 90*.)
-- W3C HTML/CSS validators passed for key templates (base, scenarios, training).
+
+## Screenshots (Responsiveness)
+
+### Home (logged out)
+
+Mobile | Tablet | Desktop
+:--:|:--:|:--:
+![Home – mobile](static/images/mobile_375_screenshot.jpg) | ![Home – tablet](static/images/Tablet_screenshot.jpg) | ![Home – desktop](static/images/desktop_screenshot.jpeg)
+
+**Notes**
+- Layout scales from single-column to multi-column; nav wraps; hero text remains readable; CTAs remain tappable.
+- Other pages share the same base template, grid system, and components; responsiveness verified via DevTools.
+
+- Lighthouse run on Home page (Accessibility/Best Practices/Performance) — scores recorded in Testing.
+- WAVE checked for common issues (alt text, contrast, headings). Any limitations noted in *Known Issues*.
+
+- Lighthouse checks run in Chrome DevTools. 
+### Lighthouse results
+| Context  | Performance | Accessibility | Best Practices | SEO |
+|---------|-------------:|--------------:|---------------:|----:|
+| Mobile  | 87           | 90+           | 90+            | 90+ |
+| Desktop | 90+          | 90+           | 90+            | 90+ |
+
+Notes: Mobile scores run on a throttled CPU/network. Images have explicit width/height and `loading="lazy"`. Google Fonts loaded with `preconnect` and `display=swap`. Static assets served compressed via WhiteNoise.
+
+## Validation Evidence
+- W3C HTML/CSS validators passed.
+
+### HTML Validation (By URL)
+Validated with the W3C Markup Validator (By URI) on the live site home page.
+
+| Page | Screenshot |
+|---|---|
+| Home (`/`) | ![HTML validator – Home](static/images/HTML_validator_screenshot.jpeg) |
+
+> Note: Other pages share the same base template and components; spot checks were performed but full-page screenshots are not included.
+
+### CSS Validation (By URL)
+Validated the compiled stylesheet with the W3C CSS Validator.
+
+- File: `/static/app.css`  
+  ![CSS validator – app.css](static/images/CSS_validator_screenshot.jpeg)
+
 
 ### Python validation
 All Python files were tested with flake8.  
