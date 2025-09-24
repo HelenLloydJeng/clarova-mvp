@@ -83,6 +83,14 @@ Documented using the 5 planes: Strategy, Scope, Structure, Skeleton, and Surface
 - 404 Not Found: “Page not found.” + Home link
 - 500 Server Error: “Something went wrong.” + Home link
 
+- **JavaScript Enhancements**  
+  - Lesson toggle controls to show/hide lesson descriptions  
+  - Delete confirmation before Scenario deletion  
+  - Simple required field validation on forms  
+  - Back to Top button: appears after scrolling down and smoothly scrolls the user back to the top  
+![Back to Top button screenshot](static/images/back_to_top_butto_screenshot.jpeg)
+
+
 ### 5. Surface (UI Design)
 - Clean, minimal layout using semantic HTML5 and custom CSS.
 - Consistent header/footer; clear active states in navigation.
@@ -289,6 +297,7 @@ SECRET_KEY=your_django_secret_key
 DEBUG=True
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_PUBLISHABLE_KEY=pk_test_...
+``` 
 
 3. Migrate and run:
 - `python manage.py migrate`
@@ -380,22 +389,23 @@ STRIPE_PUBLISHABLE_KEY=pk_test_...
 | Test ID | Scenario | Steps | Expected | Actual | Result | Screenshot |
 |---|---|---|---|---|---|---|
 | T-001 | New user — sign up | Visit `/accounts/signup/`, submit valid data | Account created; redirect to Home |  |  | ![signup](static/images/signup_screenshot.jpeg) |
-| T-002 | Returning user — login | Visit `/accounts/login/`, submit valid credentials | Redirect to Home; nav shows **Logout** |  |  | ![login]() |
-| T-003 | Logout flow | Click **Logout** in nav | Redirect to Home; nav shows **Login/Sign up** |  |  | ![logout]() |
+| T-002 | Returning user — login | Visit `/accounts/login/`, submit valid credentials | Redirect to Home; nav shows **Logout** |  |  | ![login](static/images/Screenshot_signedout.jpeg) |
+| T-003 | Logout flow | Click **Logout** in nav | Redirect to Home; nav shows **Login/Sign up** |  |  | ![logout](static/images/Screenshot_Welcome_back_relogin.jpeg) |
 | T-004 | Navigation | Click Home, Login, Sign up, Logout | All links work; no 404s |  |  | ![nav](static/images/login_screenshot.jpeg) |
 | T-005 | Templates loading | Load Home page | `core/home.html` rendered via `base.html` |  |  | ![home](static/images/homepage_screenshot.jpeg) |
 | T-006 | 403 Forbidden page | Visit a restricted URL when not authorised | Custom **403** template renders; helpful message |  |  | ![403](static/images/403_screenshot.jpeg) |
 | T-007 | 404 Not Found page | Visit a non-existent URL | Custom **404** template renders; link back to Home |  |  | ![404](static/images/404_screenshot.jpeg) |
 | T-008 | 500 Server Error page | Trigger server error in dev (temporary view) | Custom **500** template renders; support message |  |  | ![500](static/images/500_screenshot.jpeg) |
-| T-009 | Scenarios — list | Visit `/scenarios` | List shows only the logged-in user’s scenarios |  |  | ![scenarios list]() |
-| T-010 | Scenarios — create | `/scenarios/create` submit valid form | Scenario saved; redirect to detail; success message |  |  |  |![scenario edit](static/images/new_scenario.jpeg) 
+| T-009 | Scenarios — list | Visit `/scenarios` | List shows only the logged-in user’s scenarios |  |  | ![scenarios list](static/images/scenario_owned_screenshot.jpeg) |
+| T-010 | Scenarios — create | `/scenarios/create` submit valid form | Scenario saved; redirect to detail; success message |  |  |  |![scenario edit](static/images/new_scenario.jpeg) |
 | T-011 | Scenarios — edit | Open a scenario; click **Edit**; submit changes | Changes saved; redirect to detail |  |  | ![scenario edit](static/images/screenshot-scenarios.png) |
 | T-012 | Scenarios — delete | Open a scenario; **Delete**; confirm | Scenario removed; redirect to list |  |  | ![scenario delete](static/images/scenario_delete.jpeg) |
-| T-013 | Training — list | Visit `/training` | Modules listed with **Buy** buttons for paid items |  |  | ![training list]() |
+| T-013 | Training — list | Visit `/training` | Modules listed with **Buy** buttons for paid items |  |  | ![training list](static/images/buy_training_screenshot.jpeg/) |
 | T-014 | Stripe — checkout create | Click **Buy** on a paid training | Redirects to Stripe Checkout in test mode |  |  | ![stripe checkout](static/images/stripe_checkout_screenshot.jpeg) |
 | T-015 | Stripe — success | Complete test payment | Redirect to `/training/success`; entitlement created |  |  | ![stripe success](static/images/stripe_dashboard.jpeg) |
-| T-016 | Stripe — cancel | Cancel at Stripe | Redirect to `/training/cancel`; no entitlement |  |  | ![stripe cancel]() |
-| T-017 | Access control | Visit `/scenarios/create` when logged out | Redirect to login; after login, return to create |  |  | ![login redirect]() |
+| T-016 | Stripe — cancel | Cancel at Stripe | Redirect to `/training/cancel`; no entitlement |  |  | ![stripe cancel](static/images/stripe_refund_screenshot.jpeg) |
+| T-017 | Access control | Visit `/scenarios/create` when logged out | Redirect to login; after login, return to create |  |  | ![login redirect](static/images/login_screenshot.jpeg) |
+| T-018 | Back to Top button | Scroll down Home page, button appears bottom-right, click it | Button shows after scrolling, click smoothly returns to top | As expected | Pass | ![Back to Top screenshot](static/images/back_to_top_butto_screenshot.jpeg)
 
 ### Responsiveness & Accessibility
 - Layout tested at mobile (≤375px), tablet (~768px), and desktop (≥1280px) breakpoints.
