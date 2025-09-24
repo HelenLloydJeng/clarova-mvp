@@ -394,19 +394,19 @@ heroku config:set CSRF_TRUSTED_ORIGINS=https://clarova-mvp-hlj-31df25c77d83.hero
 | T-002 | Returning user — login | Visit `/accounts/login/`, submit valid credentials | Redirect to Home; nav shows **Logout** | as expected | pass | ![login](static/images/Screenshot_signedout.jpeg) |
 | T-003 | Logout flow | Click **Logout** in nav | Redirect to Home; nav shows **Login/Sign up** | as expected |  pass| ![logout](static/images/Screenshot_Welcome_back_relogin.jpeg) |
 | T-004 | Navigation | Click Home, Login, Sign up, Logout | All links work; no 404s | as expected |  pass| ![nav](static/images/login_screenshot.jpeg) |
-| T-005 | Templates loading | Load Home page | `core/home.html` rendered via `base.html` |  |  | ![home](static/images/homepage_screenshot.jpeg) |
-| T-006 | 403 Forbidden page | Visit a restricted URL when not authorised | Custom **403** template renders; helpful message |  |  | ![403](static/images/403_screenshot.jpeg) |
-| T-007 | 404 Not Found page | Visit a non-existent URL | Custom **404** template renders; link back to Home |  |  | ![404](static/images/404_screenshot.jpeg) |
-| T-008 | 500 Server Error page | Trigger server error in dev (temporary view) | Custom **500** template renders; support message |  |  | ![500](static/images/500_screenshot.jpeg) |
-| T-009 | Scenarios — list | Visit `/scenarios` | List shows only the logged-in user’s scenarios |  |  | ![scenarios list](static/images/scenario_owned_screenshot.jpeg) |
-| T-010 | Scenarios — create | `/scenarios/create` submit valid form | Scenario saved; redirect to detail; success message |  |  |  |![scenario edit](static/images/new_scenario.jpeg) |
-| T-011 | Scenarios — edit | Open a scenario; click **Edit**; submit changes | Changes saved; redirect to detail |  |  | ![scenario edit](static/images/screenshot-scenarios.png) |
-| T-012 | Scenarios — delete | Open a scenario; **Delete**; confirm | Scenario removed; redirect to list |  |  | ![scenario delete](static/images/scenario_delete.jpeg) |
-| T-013 | Training — list | Visit `/training` | Modules listed with **Buy** buttons for paid items |  |  | ![training list](static/images/buy_training_screenshot.jpeg/) |
-| T-014 | Stripe — checkout create | Click **Buy** on a paid training | Redirects to Stripe Checkout in test mode |  |  | ![stripe checkout](static/images/stripe_checkout_screenshot.jpeg) |
-| T-015 | Stripe — success | Complete test payment | Redirect to `/training/success`; entitlement created |  |  | ![stripe success](static/images/stripe_dashboard.jpeg) |
-| T-016 | Stripe — cancel | Cancel at Stripe | Redirect to `/training/cancel`; no entitlement |  |  | ![stripe cancel](static/images/stripe_refund_screenshot.jpeg) |
-| T-017 | Access control | Visit `/scenarios/create` when logged out | Redirect to login; after login, return to create |  |  | ![login redirect](static/images/login_screenshot.jpeg) |
+| T-005 | Templates loading | Load Home page | `core/home.html` rendered via `base.html` | as expected |  pass| ![home](static/images/homepage_screenshot.jpeg) |
+| T-006 | 403 Forbidden page | Visit a restricted URL when not authorised | Custom **403** template renders; helpful message | as expected | pass | ![403](static/images/403_screenshot.jpeg) |
+| T-007 | 404 Not Found page | Visit a non-existent URL | Custom **404** template renders; link back to Home |as expected  | pass | ![404](static/images/404_screenshot.jpeg) |
+| T-008 | 500 Server Error page | Trigger server error in dev (temporary view) | Custom **500** template renders; support message | as expected |  pass| ![500](static/images/500_screenshot.jpeg) |
+| T-009 | Scenarios — list | Visit `/scenarios` | List shows only the logged-in user’s scenarios |as expected  | pass | ![scenarios list](static/images/scenario_owned_screenshot.jpeg) |
+| T-010 | Scenarios — create | `/scenarios/create` submit valid form | Scenario saved; redirect to detail; success message |  as expected | pass |![scenario edit](static/images/new_scenario.jpeg) |
+| T-011 | Scenarios — edit | Open a scenario; click **Edit**; submit changes | Changes saved; redirect to detail | as expected | pass | ![scenario edit](static/images/screenshot-scenarios.png) |
+| T-012 | Scenarios — delete | Open a scenario; **Delete**; confirm | Scenario removed; redirect to list | as expected | pass | ![scenario delete](static/images/scenario_delete.jpeg) |
+| T-013 | Training — list | Visit `/training` | Modules listed with **Buy** buttons for paid items |as expected  | pass | ![training list](static/images/buy_training_screenshot.jpeg/) |
+| T-014 | Stripe — checkout create | Click **Buy** on a paid training | Redirects to Stripe Checkout in test mode | as expected | pass | ![stripe checkout](static/images/stripe_checkout_screenshot.jpeg) |
+| T-015 | Stripe — success | Complete test payment | Redirect to `/training/success`; entitlement created | as expected | pass | ![stripe success](static/images/stripe_dashboard.jpeg) |
+| T-016 | Stripe — cancel | Cancel at Stripe | Redirect to `/training/cancel`; no entitlement | as expected | pass | ![stripe cancel](static/images/stripe_refund_screenshot.jpeg) |
+| T-017 | Access control | Visit `/scenarios/create` when logged out | Redirect to login; after login, return to create | as expected | pass | ![login redirect](static/images/login_screenshot.jpeg) |
 | T-018 | Back to Top button | Scroll down Home page, button appears bottom-right, click it | Button shows after scrolling, click smoothly returns to top | As expected | Pass | ![Back to Top screenshot](static/images/back_to_top_butto_screenshot.jpeg)
 
 ### Responsiveness & Accessibility
