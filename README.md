@@ -83,6 +83,14 @@ Documented using the 5 planes: Strategy, Scope, Structure, Skeleton, and Surface
 - 404 Not Found: “Page not found.” + Home link
 - 500 Server Error: “Something went wrong.” + Home link
 
+### 5. Surface (UI Design)
+- Clean, minimal layout using semantic HTML5 and custom CSS.
+- Consistent header/footer; clear active states in navigation.
+- Feedback via Django messages banner (success/error/warning).
+- Forms with accessible labels, logical tab order, and visible focus.
+- Colour & typography chosen for contrast and readability (tested with Lighthouse).
+- Responsive grid and spacing scale from mobile → tablet → desktop.
+
 ## Data Model Overview
 
 ### Accounts
@@ -234,6 +242,8 @@ clarova/
    heroku config:set STRIPE_SECRET_KEY=sk_test_...
    heroku config:set STRIPE_PUBLISHABLE_KEY=pk_test_...
    heroku config:set DISABLE_COLLECTSTATIC=0
+   heroku config:set ALLOWED_HOSTS=clarova-mvp-hlj-31df25c77d83.herokuapp.com -a clarova-mvp-hlj
+heroku config:set CSRF_TRUSTED_ORIGINS=https://clarova-mvp-hlj-31df25c77d83.herokuapp.com -a clarova-mvp-hlj
 
 3. Push the code to Heroku:
    git push heroku main
@@ -272,7 +282,18 @@ clarova/
    - `python -m venv .venv`
    - `source .venv/bin/activate` (Mac/Linux) or `.venv\Scripts\activate` (Windows)
    - `pip install -r requirements.txt`
-2. Create `.env`:
+
+2. Create `.env` in the project root:
+  ```env
+SECRET_KEY=your_django_secret_key
+DEBUG=True
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+
+3. Migrate and run:
+- `python manage.py migrate`
+- `python manage.py runserver`
+- open http://127.0.0.1:8000
 
 
 ## Troubleshooting & Fixes (Key Issues Resolved)
@@ -443,6 +464,12 @@ No functional errors were reported.
   - Training list displays **(Owned)** badge.  
   - Logs confirm checkout and success callbacks.  
 - **Notes:** Runs in Stripe test mode only; no real cards charged. MVP validates purchase on return URL (no webhooks yet).
+
+## Known Issues / Unfixed Bugs
+- Purchases are confirmed on the return URL (no Stripe webhooks yet), so rare edge cases may require manual entitlement.
+- No role system in MVP; access is authentication-based (login required).
+- No automated unit tests in MVP; testing is manual and evidence is documented.
+- Minor accessibility improvements planned (e.g., additional alt text and heading refinements where flagged by WAVE).
 
 ## Version Control
 - Git and GitHub used from project start.
